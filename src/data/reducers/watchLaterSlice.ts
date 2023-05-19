@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { RootState } from "../store"
+import { IWatchLaterList } from "../types"
+
+const initialState: IWatchLaterList = {
+    watchLaterMovies: []
+}
 
 const watchLaterSlice = createSlice({
     name: 'watch-later',
-    initialState: {
-        watchLaterMovies: []
-    },
+    initialState,
     reducers: {
         addToWatchLater: (state, action) => {
             state.watchLaterMovies = [action.payload, ...state.watchLaterMovies]
@@ -18,5 +22,7 @@ const watchLaterSlice = createSlice({
         },
     },
 })
+
+export const watchLaterList = (state: RootState) => state.watchLater
 
 export default watchLaterSlice

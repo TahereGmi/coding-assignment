@@ -1,63 +1,75 @@
+import React, { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { Routes, Route, createSearchParams, useSearchParams, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
+import type { AppDispatch } from "./data/store";
 import 'reactjs-popup/dist/index.css'
-import { fetchMovies } from './data/moviesSlice'
-import { ENDPOINT_SEARCH, ENDPOINT_DISCOVER, ENDPOINT, API_KEY } from './constants'
+import { fetchMovies, movieList } from './data/reducers/moviesSlice'
 import Header from './components/Header'
 import Movies from './components/Movies'
 import Starred from './components/Starred'
 import WatchLater from './components/WatchLater'
 import YouTubePlayer from './components/YoutubePlayer'
+import { IMovie, IMovies } from './data/types'
+import { ENDPOINT_SEARCH, ENDPOINT_DISCOVER, ENDPOINT, API_KEY } from './constants'
 import './app.scss'
 
-const App = () => {
+const App: FC = () => {
 
-  const state = useSelector((state) => state)
-  const { movies } = state  
-  const dispatch = useDispatch()
+  const { movies, fetchStatus } = useSelector(movieList) as IMovies
+  const dispatch = useDispatch<AppDispatch>()
   const [searchParams, setSearchParams] = useSearchParams()
   const searchQuery = searchParams.get('search')
-  const [videoKey, setVideoKey] = useState()
+  const [videoKey, setVideoKey] = useState<number | null>(null)
   const [isOpen, setOpen] = useState(false)
   const navigate = useNavigate()
+
+useEffect(() => {
+  (() => {
+    if (searchQuery) {
+      dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+searchQuery))
+    } else {
+      dispatch(fetchMovies(ENDPOINT_DISCOVER))
+    }
+  })()
+}, [dispatch])
   
-  const closeModal = () => setOpen(false)
+  // const closeModal = () => setOpen(false)
   
   const closeCard = () => {
 
   }
 
-  const getSearchResults = (query) => {
+  const getSearchResults = (query: string) => {
     if (query !== '') {
-      dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+query))
-      setSearchParams(createSearchParams({ search: query }))
+      dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=` + query));
+      setSearchParams(createSearchParams({ search: query }));
     } else {
-      dispatch(fetchMovies(ENDPOINT_DISCOVER))
-      setSearchParams()
+      dispatch(fetchMovies(ENDPOINT_DISCOVER));
+      setSearchParams();
     }
   }
 
-  const searchMovies = (query) => {
+  const searchMovies = (query: string) => {
     navigate('/')
     getSearchResults(query)
   }
 
-  const getMovies = () => {
-    if (searchQuery) {
-        dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+searchQuery))
-    } else {
-        dispatch(fetchMovies(ENDPOINT_DISCOVER))
-    }
-  }
+  // const getMovies = () => {
+  //   if (searchQuery) {
+  //       dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+searchQuery))
+  //   } else {
+  //       dispatch(fetchMovies(ENDPOINT_DISCOVER))
+  //   }
+  // }
 
-  const viewTrailer = (movie) => {
+  const viewTrailer = (movie: IMovie) => {
     getMovie(movie.id)
     if (!videoKey) setOpen(true)
     setOpen(true)
   }
 
-  const getMovie = async (id) => {
+  const getMovie = async (id: number) => {
     const URL = `${ENDPOINT}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`
 
     setVideoKey(null)
@@ -65,14 +77,10 @@ const App = () => {
       .then((response) => response.json())
 
     if (videoData.videos && videoData.videos.results.length) {
-      const trailer = videoData.videos.results.find(vid => vid.type === 'Trailer')
+      const trailer = videoData.videos.results.find((vid: any) => vid.type === 'Trailer')
       setVideoKey(trailer ? trailer.key : videoData.videos.results[0].key)
     }
   }
-
-  useEffect(() => {
-    getMovies()
-  }, [])
 
   return (
     <div className="App">
@@ -88,7 +96,7 @@ const App = () => {
         )}
 
         <Routes>
-          <Route path="/" element={<Movies movies={movies} viewTrailer={viewTrailer} closeCard={closeCard} />} />
+          <Route path="/" element={<Movies movies={{ movies, fetchStatus }} viewTrailer={viewTrailer} closeCard={closeCard} />} />
           <Route path="/starred" element={<Starred viewTrailer={viewTrailer} />} />
           <Route path="/watch-later" element={<WatchLater viewTrailer={viewTrailer} />} />
           <Route path="*" element={<h1 className="not-found">Page Not Found</h1>} />
@@ -99,3 +107,4 @@ const App = () => {
 }
 
 export default App
+

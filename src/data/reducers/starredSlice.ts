@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { RootState } from "../store"
+import { IStarredList } from "../types"
+
+const initialState: IStarredList = {
+    starredMovies: []
+}
 
 const starredSlice = createSlice({
     name: 'starred',
-    initialState: {
-        starredMovies: []
-    },
+    initialState,
     reducers: {
         starMovie: (state, action) => {
             state.starredMovies = [action.payload, ...state.starredMovies]
@@ -18,5 +22,7 @@ const starredSlice = createSlice({
         },
     },
 })
+
+export const starredList = (state: RootState) => state.starred
 
 export default starredSlice

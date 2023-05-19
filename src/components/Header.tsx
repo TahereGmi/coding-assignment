@@ -1,11 +1,17 @@
+import React, { FC } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { useSelector } from 'react-redux'
-
 import '../styles/header.scss'
 
-const Header = ({ searchMovies }) => {
+interface HeaderProps {
+  searchMovies: (el: string) => void,
+  searchParams: any,
+  setSearchParams: () => void,
+}
+
+const Header: FC<HeaderProps> = ({ searchMovies }) => {
   
-  const { starredMovies } = useSelector((state) => state.starred)
+  const { starredMovies } = useSelector((state: any) => state.starred)
 
   return (
     <header>
@@ -30,9 +36,9 @@ const Header = ({ searchMovies }) => {
       </nav>
 
       <div className="input-group rounded">
-        <Link to="/" onClick={(e) => searchMovies('')} className="search-link" >
+        <Link to="/" onClick={() => searchMovies('')} className="search-link" >
           <input type="search" data-testid="search-movies"
-            onKeyUp={(e) => searchMovies(e.target.value)} 
+            onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => searchMovies(e.currentTarget.value)}
             className="form-control rounded" 
             placeholder="Search movies..." 
             aria-label="Search movies" 
