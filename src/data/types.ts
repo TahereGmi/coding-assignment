@@ -14,6 +14,11 @@ export interface IWatchLaterList {
     watchLaterMovies: IStarrMovie[];
 }
 
+interface IVideoTrailer {
+    type: string,
+    key: string
+}
+
 export interface IMovie {
     adult: boolean,
     backdrop_path: string,
@@ -27,7 +32,13 @@ export interface IMovie {
     title: string,
     video: boolean,
     vote_average: number,
-    vote_count: number
+    vote_count: number,
+    videos?: { results:  IVideoTrailer[] }
+}
+
+export interface ISingleMovie {
+    movieItem : IMovie,
+    fetchStatus: 'success' | 'loading' | 'error' | ''
 }
 
 export interface IMovies {

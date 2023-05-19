@@ -1,17 +1,46 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { Link, NavLink } from "react-router-dom"
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import type { AppDispatch } from "../data/store"
+import { IStarredList } from "../data/types"
+import { fetchMovies } from '../data/reducers/moviesSlice'
+import { starredList } from '../data/reducers/starredSlice'
+import { createSearchParams, useSearchParams, useNavigate } from "react-router-dom"
+import { ENDPOINT_SEARCH, ENDPOINT_DISCOVER } from '../constants'
 import '../styles/header.scss'
 
-interface HeaderProps {
-  searchMovies: (el: string) => void,
-  searchParams: any,
-  setSearchParams: () => void,
-}
-
-const Header: FC<HeaderProps> = ({ searchMovies }) => {
+const Header: FC = () => {
+  const { starredMovies } = useSelector(starredList) as IStarredList
+  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const searchQuery = searchParams.get('search')
   
-  const { starredMovies } = useSelector((state: any) => state.starred)
+
+  useEffect(() => {
+    (() => {
+      if (searchQuery) {
+        dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+searchQuery))
+      } else {
+        dispatch(fetchMovies(ENDPOINT_DISCOVER))
+      }
+    })()
+  }, [dispatch])
+
+  const getSearchResults = (query: string) => {
+    if (query !== '') {
+      dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=` + query));
+      setSearchParams(createSearchParams({ search: query }));
+    } else {
+      dispatch(fetchMovies(ENDPOINT_DISCOVER));
+      setSearchParams();
+    }
+  }
+
+  const searchMovies = (query: string) => {
+    navigate('/')
+    getSearchResults(query)
+  }
 
   return (
     <header>
@@ -51,3 +80,4 @@ const Header: FC<HeaderProps> = ({ searchMovies }) => {
 }
 
 export default Header
+

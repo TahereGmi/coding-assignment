@@ -6,11 +6,7 @@ import Movie from './Movie'
 import { IMovie } from '../data/types'
 import '../styles/starred.scss'
 
-interface WatchLaterProps {
-  viewTrailer: (movie: IMovie) => void,
-}
-
-const WatchLater: FC<WatchLaterProps> = ({viewTrailer}) => {
+const WatchLater: FC = () => {
     const { watchLaterMovies } = useSelector((state: any) => state.watchLater)
     const { remveAllWatchLater } = watchLaterSlice.actions
     const dispatch = useDispatch()
@@ -24,8 +20,6 @@ const WatchLater: FC<WatchLaterProps> = ({viewTrailer}) => {
           <Movie 
             movie={movie}
             key={movie.id}
-            viewTrailer={viewTrailer} 
-            closeCard={() => console.log('')}
           />
         ))}
         </div>

@@ -1,24 +1,37 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import watchLaterSlice, { watchLaterList } from '../data/reducers/watchLaterSlice'
 import starredSlice, { starredList } from '../data/reducers/starredSlice'
-import { IMovie, IStarredList, IWatchLaterList } from '../data/types'
+import { IMovie, ISingleMovie, IStarredList, IWatchLaterList } from '../data/types'
+import { fetchMovie, singleMovie } from '../data/reducers/singleMovieSlice'
+import { ENDPOINT, API_KEY } from '../constants'
+
+import type { AppDispatch } from "../data/store"
 // import placeholder from '../assets/'
 
 interface IMovieProps {
-    movie: IMovie,
-    viewTrailer: (movie: IMovie) => void,
-    closeCard: () => void,
+    movie: IMovie
 }
 
-const Movie: FC<IMovieProps> = ({ movie, viewTrailer, closeCard }) => {
+const Movie: FC<IMovieProps> = ({ movie }) => {
     const { starredMovies } = useSelector(starredList) as IStarredList
     const { watchLaterMovies } = useSelector(watchLaterList) as IWatchLaterList
+    const dispatch = useDispatch<AppDispatch>()
+    const { movieItem, fetchStatus } = useSelector(singleMovie) as ISingleMovie
 
     const { starMovie, unstarMovie } = starredSlice.actions
     const { addToWatchLater, removeFromWatchLater } = watchLaterSlice.actions
 
-    const dispatch = useDispatch()
+    const [videoKey, setVideoKey] = useState<string | null>(null)
+    const [isOpen, setOpen] = useState(false)
+
+    useEffect(() => {
+        if (fetchStatus === 'success') {
+          setVideoKey(null)
+          const trailer = movieItem.videos?.results.find((vid: any) => vid.type === 'Trailer')
+          setVideoKey((trailer?.key ?? movieItem.videos?.results[0].key) || '')
+        }
+      }, [fetchStatus])
 
     const myClickHandler = (e: any) => {
         // if (!e) var e = window.event
@@ -26,6 +39,17 @@ const Movie: FC<IMovieProps> = ({ movie, viewTrailer, closeCard }) => {
         if (e.stopPropagation) e.stopPropagation()
         e.target.parentElement.parentElement.classList.remove('opened')
     }
+
+    const getMovie = async (id: number) => {
+        const URL = `${ENDPOINT}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`
+        await dispatch(fetchMovie(URL));
+    }
+
+    const viewTrailer = (movie: IMovie) => {
+        getMovie(movie.id)
+        if (!videoKey) setOpen(true)
+        setOpen(true)
+      }
 
     return (
         <div className="card" onClick={(e) => e.currentTarget.classList.add('opened')} >

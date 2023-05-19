@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import ReactPlayer from 'react-player'
 
 interface IYouTubePlayerProps {
-  videoKey: number
+  videoKey: string
 }
 
 const YoutubePlayer: FC<IYouTubePlayerProps> = ({ videoKey }) => (<ReactPlayer 

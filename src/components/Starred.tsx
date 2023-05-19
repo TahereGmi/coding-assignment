@@ -6,10 +6,7 @@ import starredSlice from '../data/reducers/starredSlice'
 import { IMovie } from '../data/types'
 import '../styles/starred.scss'
 
-interface StarredProps {
-  viewTrailer: (movie: IMovie) => void,
-}
-const Starred: FC<StarredProps> = ({viewTrailer}) => {
+const Starred: FC = () => {
 
     const { starredMovies } = useSelector((state: any) => state.starred)
     const { clearAllStarred } = starredSlice.actions
@@ -24,8 +21,7 @@ const Starred: FC<StarredProps> = ({viewTrailer}) => {
           <Movie 
             movie={movie}
             key={movie.id}
-            viewTrailer={viewTrailer} 
-            closeCard={() => console.log('')}/>
+          />
         ))}
         </div>
 
