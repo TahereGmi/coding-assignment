@@ -7,6 +7,7 @@ import { fetchMovie, singleMovie } from '../data/reducers/singleMovieSlice'
 import { ENDPOINT, API_KEY } from '../constants'
 import type { AppDispatch } from "../data/store"
 import TrailerModal from './TrailerModal'
+import words from '../translation/english_words.json'
 import Icon from './Icon'
 
 interface IMovieProps {
@@ -147,7 +148,7 @@ const Movie: FC<IMovieProps> = ({ movie }) => {
                                 className="movie-btn btn btn-light btn-watch-later" 
                                 onClick={handleAddToWatchList}
                             >
-                                Watch Later
+                                {words.watch_later}
                             </button>
                         ) : (
                             <button 
@@ -162,7 +163,7 @@ const Movie: FC<IMovieProps> = ({ movie }) => {
                             type="button" 
                             className="movie-btn btn btn-dark" 
                             onClick={handleShowTrailer}>
-                                View Trailer
+                                {words.view_trailer}
                             </button>                                                
                     </div>
                     <img 
