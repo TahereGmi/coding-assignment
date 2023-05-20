@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootState } from "../store";
 import { ISingleMovie } from "../types"
 
@@ -18,7 +18,7 @@ const initialState: ISingleMovie = {
         vote_average: 0,
         vote_count: 0
     },
-    fetchStatus: ''
+    fetchStatus: '',
 }
 
 export const fetchMovie = createAsyncThunk(
