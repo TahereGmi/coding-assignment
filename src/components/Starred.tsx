@@ -16,7 +16,7 @@ const Starred: FC = () => {
     <div className="starred" data-testid="starred">
       {starredMovies.length > 0 && (<div data-testid="starred-movies" className="starred-movies">
         <h6 className="header">Starred movies</h6>
-        <div className="row">
+        <div className="wrapper">
         {starredMovies.map((movie: IMovie) => (
           <Movie 
             movie={movie}
