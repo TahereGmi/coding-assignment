@@ -7,7 +7,7 @@ import { fetchMovie, singleMovie } from '../data/reducers/singleMovieSlice'
 import { ENDPOINT, API_KEY } from '../constants'
 import type { AppDispatch } from "../data/store"
 import TrailerModal from './TrailerModal'
-import words from '../translation/english_words.json'
+import words from '../translation/data_words.json'
 import Icon from './Icon'
 
 interface IMovieProps {

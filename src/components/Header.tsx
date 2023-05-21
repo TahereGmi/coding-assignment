@@ -3,10 +3,11 @@ import { Link, NavLink } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import type { AppDispatch } from "../data/store"
 import { IStarredList } from "../data/types"
-import { fetchMovies } from '../data/reducers/moviesSlice'
+import { fetchMoviesBySearch, fetchMovies } from '../data/reducers/moviesSlice'
 import { starredList } from '../data/reducers/starredSlice'
 import { createSearchParams, useSearchParams, useNavigate } from "react-router-dom"
-import { ENDPOINT_SEARCH, ENDPOINT_DISCOVER } from '../constants'
+import { ENDPOINT_SEARCH } from '../constants'
+import words from '../translation/data_words.json'
 import '../styles/header.scss'
 
 const Header: FC = () => {
@@ -20,17 +21,17 @@ const Header: FC = () => {
   useEffect(() => {
     (() => {
       if (searchQuery?.length > 2) {
-        dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+searchQuery))
+        dispatch(fetchMoviesBySearch(`${ENDPOINT_SEARCH}&query=`+searchQuery))
       }
     })()
   }, [dispatch, searchQuery])
 
   const getSearchResults = (query: string) => {
     if (query !== '') {
-      dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=` + query));
+      dispatch(fetchMoviesBySearch(`${ENDPOINT_SEARCH}&query=` + query));
       setSearchParams(createSearchParams({ search: query }));
     } else {
-      dispatch(fetchMovies(ENDPOINT_DISCOVER));
+      dispatch(fetchMovies(1));
       setSearchParams();
     }
   }
@@ -58,7 +59,7 @@ const Header: FC = () => {
           )}
         </NavLink>
         <NavLink to="/watch-later" className="nav-fav">
-          watch later
+          {words.watch_later}
         </NavLink>
       </nav>
 

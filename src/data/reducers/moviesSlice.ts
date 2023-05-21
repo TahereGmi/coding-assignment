@@ -13,16 +13,16 @@ const initialState: IMovies = {
   fetchStatus: "",
 };
 
-export const fetchMoviesByPage = createAsyncThunk(
+export const fetchMovies = createAsyncThunk(
   "movie-list",
   async (page: number) => {
-    const res = await fetch(`${ENDPOINT_DISCOVER}&page=${page}`);
+    const res = await fetch(`${ENDPOINT_DISCOVER}&page=${page}`)
     return res.json();
   }
 );
 
-export const fetchMovies = createAsyncThunk(
-  "movie-list/all",
+export const fetchMoviesBySearch = createAsyncThunk(
+  "movie-list/search",
   async (apiUrl: string) => {
     const res = await fetch(apiUrl);
     return res.json();
@@ -35,7 +35,7 @@ const moviesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchMoviesByPage.fulfilled, (state, action) => {
+      .addCase(fetchMovies.fulfilled, (state, action) => {
         state.movies = {
           ...state.movies,
           ...action.payload,
@@ -43,20 +43,20 @@ const moviesSlice = createSlice({
         };
         state.fetchStatus = "success";
       })
-      .addCase(fetchMoviesByPage.pending, (state) => {
-        state.fetchStatus = "loading";
-      })
-      .addCase(fetchMoviesByPage.rejected, (state) => {
-        state.fetchStatus = "error";
-      })
-      .addCase(fetchMovies.fulfilled, (state, action) => {
-        state.movies = action.payload;
-        state.fetchStatus = "success";
-      })
       .addCase(fetchMovies.pending, (state) => {
         state.fetchStatus = "loading";
       })
       .addCase(fetchMovies.rejected, (state) => {
+        state.fetchStatus = "error";
+      })
+      .addCase(fetchMoviesBySearch.fulfilled, (state, action) => {
+        state.movies = action.payload;
+        state.fetchStatus = "success";
+      })
+      .addCase(fetchMoviesBySearch.pending, (state) => {
+        state.fetchStatus = "loading";
+      })
+      .addCase(fetchMoviesBySearch.rejected, (state) => {
         state.fetchStatus = "error";
       });
   },
