@@ -1,10 +1,9 @@
-import React, { FC, ReactNode, lazy } from 'react';
+import React, { FC, ReactNode } from 'react'
+import Header from '../components/Header'
 
 interface ILayoutProps {
     children: ReactNode
 }
-
-const Header = lazy(() => import('../components/Header'))
 
 const Layout: FC<ILayoutProps> = ({ children }) => {
     return (

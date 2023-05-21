@@ -18,6 +18,12 @@
         @media (max-width: 768px) {
             padding: 0 40px;
         }
+
+        .loading {
+            width: 100%;
+            padding: 50px 0;
+            text-align: center;
+        }
     }
       
     .card {
@@ -314,5 +320,5 @@
     
     @media (max-width: 720px) {
         background-color: transparent;
-    }    
+    } 
 }

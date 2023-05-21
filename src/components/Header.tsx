@@ -14,18 +14,16 @@ const Header: FC = () => {
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-  const searchQuery = searchParams.get('search')
+  const searchQuery = searchParams.get('search') as string
   
 
   useEffect(() => {
     (() => {
-      if (searchQuery) {
+      if (searchQuery?.length > 2) {
         dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=`+searchQuery))
-      } else {
-        dispatch(fetchMovies(ENDPOINT_DISCOVER))
       }
     })()
-  }, [dispatch])
+  }, [dispatch, searchQuery])
 
   const getSearchResults = (query: string) => {
     if (query !== '') {
