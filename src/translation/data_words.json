@@ -1,5 +1,10 @@
 {
     "watch_later": "Watch Later",
     "view_trailer": "View Trailer",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "pageNotFound": "Page Not Found",
+    "noStarredMovie": "There are no starred movies.",
+    "goTo": "Go to ",
+    "home": "Home",
+    "removeAllStarred": "Remove all starred"
 }

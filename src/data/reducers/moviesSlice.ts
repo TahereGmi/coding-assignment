@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ENDPOINT_DISCOVER } from '../../constants'
 import { RootState } from "../store";
 import { IMovies } from "../types";
 
@@ -11,55 +10,51 @@ const initialState: IMovies = {
     total_results: 0,
   },
   fetchStatus: "",
-};
+}
+
+interface IAPIParams {
+  apiUrl: string,
+  page?: number
+}
 
 export const fetchMovies = createAsyncThunk(
   "movie-list",
-  async (page: number) => {
-    const res = await fetch(`${ENDPOINT_DISCOVER}&page=${page}`)
+  async (params: IAPIParams) => {
+    const url = params.page ? `${params.apiUrl}&page=${params.page}` : `${params.apiUrl}`
+    const res = await fetch(url)
+    if (!res.ok) {
+      if (res.status === 404) {
+        throw new Error("Movies not found");
+      } else {
+        throw new Error("Failed to fetch movies");
+      }
+    }
     return res.json();
-  }
-);
-
-export const fetchMoviesBySearch = createAsyncThunk(
-  "movie-list/search",
-  async (apiUrl: string) => {
-    const res = await fetch(apiUrl);
-    return res.json();
-  }
+}
 );
 
 const moviesSlice = createSlice({
-  name: "movieList",
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchMovies.fulfilled, (state, action) => {
-        state.movies = {
-          ...state.movies,
-          ...action.payload,
-          results: [...state.movies.results, ...action.payload.results],
-        };
-        state.fetchStatus = "success";
-      })
-      .addCase(fetchMovies.pending, (state) => {
-        state.fetchStatus = "loading";
-      })
-      .addCase(fetchMovies.rejected, (state) => {
-        state.fetchStatus = "error";
-      })
-      .addCase(fetchMoviesBySearch.fulfilled, (state, action) => {
-        state.movies = action.payload;
-        state.fetchStatus = "success";
-      })
-      .addCase(fetchMoviesBySearch.pending, (state) => {
-        state.fetchStatus = "loading";
-      })
-      .addCase(fetchMoviesBySearch.rejected, (state) => {
-        state.fetchStatus = "error";
-      });
-  },
+name: "movieList",
+initialState,
+reducers: {},
+extraReducers: (builder) => {
+  builder
+    .addCase(fetchMovies.fulfilled, (state, action) => {
+      const uniqueResults = new Set([...state.movies.results, ...action.payload.results]);
+      state.movies = {
+        ...state.movies,
+        ...action.payload,
+        results: Array.from(uniqueResults),
+      };
+      state.fetchStatus = "success"
+    })
+    .addCase(fetchMovies.pending, (state) => {
+      state.fetchStatus = "loading"
+    })
+    .addCase(fetchMovies.rejected, (state) => {
+      state.fetchStatus = "error"
+    })
+},
 });
 
 export const movieList = (state: RootState) => state.movieList;

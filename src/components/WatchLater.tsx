@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import watchLaterSlice from '../data/reducers/watchLaterSlice'
 import Movie from './Movie'
 import { IMovie } from '../data/types'
+import Icon from './Icon'
 import '../styles/starred.scss'
 
 const WatchLater: FC = () => {
@@ -30,7 +31,7 @@ const WatchLater: FC = () => {
       </div>)}
 
       {watchLaterMovies.length === 0 && (<div className="text-center empty-cart">
-        <i className="bi bi-heart" />
+        <Icon classList="bi bi-heart" />
         <p>You have no movies saved to watch later.</p>
         <p>Go to <Link to='/'>Home</Link></p>
       </div>)}

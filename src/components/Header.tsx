@@ -1,13 +1,14 @@
-import React, { FC, useEffect } from "react"
+import React, { FC, useCallback, useEffect, useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import type { AppDispatch } from "../data/store"
 import { IStarredList } from "../data/types"
-import { fetchMoviesBySearch, fetchMovies } from '../data/reducers/moviesSlice'
+import { fetchMovies } from '../data/reducers/moviesSlice'
 import { starredList } from '../data/reducers/starredSlice'
 import { createSearchParams, useSearchParams, useNavigate } from "react-router-dom"
 import { ENDPOINT_SEARCH } from '../constants'
 import words from '../translation/data_words.json'
+import Icon from "./Icon"
 import '../styles/header.scss'
 
 const Header: FC = () => {
@@ -16,46 +17,50 @@ const Header: FC = () => {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const searchQuery = searchParams.get('search') as string
-  
+
+  const fetchMoviesSearch = useCallback(() => {
+    dispatch(fetchMovies({ apiUrl: `${ENDPOINT_SEARCH}&query=` + searchQuery, page: 1 }));
+  }, [dispatch, searchQuery]);
 
   useEffect(() => {
-    (() => {
-      if (searchQuery?.length > 2) {
-        dispatch(fetchMoviesBySearch(`${ENDPOINT_SEARCH}&query=`+searchQuery))
-      }
-    })()
-  }, [dispatch, searchQuery])
+    if (searchQuery?.length > 0) {
+      fetchMoviesSearch();
+    }
+  }, [fetchMoviesSearch, searchQuery]);
 
   const getSearchResults = (query: string) => {
     if (query !== '') {
-      dispatch(fetchMoviesBySearch(`${ENDPOINT_SEARCH}&query=` + query));
+      dispatch(fetchMovies({ apiUrl: `${ENDPOINT_SEARCH}&query=` + query }));
       setSearchParams(createSearchParams({ search: query }));
     } else {
-      dispatch(fetchMovies(1));
       setSearchParams();
     }
   }
 
-  const searchMovies = (query: string) => {
+  const searchMovies = (e: React.KeyboardEvent<HTMLInputElement>) => {
     navigate('/')
-    getSearchResults(query)
+    getSearchResults(e.currentTarget.value)
+  }
+
+  const clearSearch = () => {
+    getSearchResults('')
   }
 
   return (
     <header>
-      <Link to="/" data-testid="home" onClick={() => searchMovies('')}>
-        <i className="bi bi-film" />
+      <Link to="/" data-testid="home" onClick={clearSearch}>
+        <Icon classList="bi bi-film" />
       </Link>
 
       <nav>
         <NavLink to="/starred" data-testid="nav-starred" className="nav-starred">
           {starredMovies.length > 0 ? (
             <>
-            <i className="bi bi-star-fill bi-star-fill-white" />
-            <sup className="star-number">{starredMovies.length}</sup>
+              <Icon classList="bi bi-star-fill bi-star-fill-white" />
+              <sup className="star-number">{starredMovies.length}</sup>
             </>
           ) : (
-            <i className="bi bi-star" />
+            <Icon classList="bi bi-star" />
           )}
         </NavLink>
         <NavLink to="/watch-later" className="nav-fav">
@@ -64,9 +69,9 @@ const Header: FC = () => {
       </nav>
 
       <div className="input-group rounded">
-        <Link to="/" onClick={() => searchMovies('')} className="search-link" >
+        <Link to="/" onClick={clearSearch} className="search-link" >
           <input type="search" data-testid="search-movies"
-            onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => searchMovies(e.currentTarget.value)}
+            onKeyUp={searchMovies}
             className="form-control rounded" 
             placeholder="Search movies..." 
             aria-label="Search movies" 
