@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import YoutubePlayer from './YoutubePlayer'
-import '../styles/trailerModal.scss'
+import YoutubePlayer from 'components/YoutubePlayer'
+import './trailerModal.scss'
 
 interface ITrailerModal {
     onClose: () => void,

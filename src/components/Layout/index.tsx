@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-import Header from '../components/Header'
+import Header from '../Header'
 
 interface ILayoutProps {
     children: ReactNode

@@ -6,5 +6,7 @@
     "noStarredMovie": "There are no starred movies.",
     "goTo": "Go to ",
     "home": "Home",
-    "removeAllStarred": "Remove all starred"
+    "removeAllStarred": "Remove all starred",
+    "emptyList": "Empty list",
+    "noWatchLaterMovie": "You have no movies saved to watch later."
 }

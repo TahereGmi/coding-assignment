@@ -4,19 +4,11 @@ import { ISingleMovie } from "../types"
 
 const initialState: ISingleMovie = {
     movieItem: {
-        adult: false,
-        backdrop_path: '',
-        genre_ids:  null,
         id: 0,
-        original_language: '',
-        original_title: '',
         overview: '',
         poster_path: '',
         release_date: '',
         title: '',
-        video: false,
-        vote_average: 0,
-        vote_count: 0
     },
     fetchStatus: '',
 }

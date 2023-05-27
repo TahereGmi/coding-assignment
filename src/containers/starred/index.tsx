@@ -1,18 +1,21 @@
 import React , { FC } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
-import Movie from './Movie'
-import starredSlice from '../data/reducers/starredSlice'
-import { IMovie } from '../data/types'
-import Icon from './Icon'
-import words from '../translation/data_words.json'
-import '../styles/starred.scss'
+import Movie from 'components/Movie'
+import starredSlice from 'data/reducers/starredSlice'
+import ListFooter from 'components/ListFooter'
+import { IMovie } from 'data/types'
+import words from 'translation/data_words.json'
+import EmptyState from 'components/EmptyState'
 
 const Starred: FC = () => {
 
     const { starredMovies } = useSelector((state: any) => state.starred)
     const { clearAllStarred } = starredSlice.actions
     const dispatch = useDispatch()
+
+    const hanleClearAllStarrs = () => {
+      dispatch(clearAllStarred())
+    }
 
   return (
     <div className="starred" data-testid="starred">
@@ -26,17 +29,16 @@ const Starred: FC = () => {
           />
         ))}
         </div>
-
-        <footer className="text-center">
-          <button className="btn btn-primary" onClick={() => dispatch(clearAllStarred())}>{words.removeAllStarred}</button>
-        </footer>
+        <ListFooter 
+          onClick={hanleClearAllStarrs}
+          buttonText={words.removeAllStarred}
+        />
       </div>)}
-
-      {starredMovies.length === 0 && (<div className="text-center empty-cart">
-        <Icon classList="bi bi-star" />
-        <p>{words.noStarredMovie}</p>
-        <p>{words.goTo}<Link to='/'>{words.home}</Link></p>
-      </div>)}
+      <EmptyState
+        show={starredMovies.length === 0}
+        iconName='star'
+        emptyText={words.noStarredMovie}
+      />
     </div>
   )
 }

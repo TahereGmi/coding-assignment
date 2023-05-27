@@ -1,12 +1,12 @@
 import React, { FC, Suspense, lazy } from 'react'
 import { Routes, Route } from "react-router-dom"
-import Layout from './components/Layout';
-import words from './translation/data_words.json'
+import Layout from '../components/Layout';
+import words from '../translation/data_words.json'
 import './app.scss'
 
-const Movies = lazy(() => import('./components/Movies'));
-const Starred = lazy(() => import('./components/Starred'));
-const WatchLater = lazy(() => import('./components/WatchLater'));
+const Movies = lazy(() => import('../components/Movies'));
+const Starred = lazy(() => import('./starred'));
+const WatchLater = lazy(() => import('./watch-later'));
 
 const App: FC = () => {
   return (

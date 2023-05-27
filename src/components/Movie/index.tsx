@@ -1,23 +1,23 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import watchLaterSlice, { watchLaterList } from '../data/reducers/watchLaterSlice'
-import starredSlice, { starredList } from '../data/reducers/starredSlice'
-import { IMovie, ISingleMovie, IStarredList, IWatchLaterList } from '../data/types'
-import { fetchMovie, singleMovie } from '../data/reducers/singleMovieSlice'
-import { ENDPOINT, API_KEY } from '../constants'
-import type { AppDispatch } from "../data/store"
-import TrailerModal from './TrailerModal'
-import words from '../translation/data_words.json'
-import Icon from './Icon'
+import watchLaterSlice, { watchLaterList } from 'data/reducers/watchLaterSlice'
+import starredSlice from 'data/reducers/starredSlice'
+import { IMovie, ISingleMovie, IStarredList, IWatchLaterList } from 'data/types'
+import { fetchMovie, singleMovie } from 'data/reducers/singleMovieSlice'
+import { ENDPOINT, API_KEY } from '../../constants'
+import type { AppDispatch, RootState } from "data/store"
+import TrailerModal from 'components/TrailerModal'
+import words from 'translation/data_words.json'
+import Icon from 'components/Icon'
 
 interface IMovieProps {
     movie: IMovie
 }
 
 const Movie: FC<IMovieProps> = ({ movie }) => {
-    const { starredMovies } = useSelector(starredList) as IStarredList
-    const { watchLaterMovies } = useSelector(watchLaterList) as IWatchLaterList
     const dispatch = useDispatch<AppDispatch>()
+    const { starredMovies } = useSelector((state: RootState) => state.starred) as IStarredList
+    const { watchLaterMovies } = useSelector(watchLaterList) as IWatchLaterList
     const { movieItem, fetchStatus } = useSelector(singleMovie) as ISingleMovie
     const { starMovie, unstarMovie } = starredSlice.actions
     const { addToWatchLater, removeFromWatchLater } = watchLaterSlice.actions
@@ -33,7 +33,7 @@ const Movie: FC<IMovieProps> = ({ movie }) => {
           const trailer = movieItem.videos?.results.find((vid: any) => vid.type === 'Trailer')
           setVideoKey((trailer?.key ?? movieItem.videos?.results[0].key) || '')
         }
-      }, [fetchStatus])
+      }, [fetchStatus, movieItem.videos?.results])
 
     useEffect(() => {
         const mediaQuery = window.matchMedia('(max-width: 480px)');

@@ -1,18 +1,18 @@
-import React, { FC, useCallback, useEffect, useState } from "react"
+import React, { FC, useCallback, useEffect } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
-import type { AppDispatch } from "../data/store"
-import { IStarredList } from "../data/types"
-import { fetchMovies } from '../data/reducers/moviesSlice'
-import { starredList } from '../data/reducers/starredSlice'
+import type { AppDispatch, RootState } from "../../data/store"
+import { IStarredList } from "../../data/types"
+import { fetchMovies } from '../../data/reducers/moviesSlice'
 import { createSearchParams, useSearchParams, useNavigate } from "react-router-dom"
-import { ENDPOINT_SEARCH } from '../constants'
-import words from '../translation/data_words.json'
-import Icon from "./Icon"
-import '../styles/header.scss'
+import { ENDPOINT_SEARCH } from '../../constants'
+import words from '../../translation/data_words.json'
+import Icon from "../Icon"
+import './header.scss'
 
 const Header: FC = () => {
-  const { starredMovies } = useSelector(starredList) as IStarredList
+  const { starredMovies } = useSelector((state: RootState) => state.starred) as IStarredList;
+
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -33,6 +33,7 @@ const Header: FC = () => {
       dispatch(fetchMovies({ apiUrl: `${ENDPOINT_SEARCH}&query=` + query }));
       setSearchParams(createSearchParams({ search: query }));
     } else {
+      dispatch(fetchMovies({ apiUrl: `${ENDPOINT_SEARCH}&query=` }));
       setSearchParams();
     }
   }
@@ -47,7 +48,7 @@ const Header: FC = () => {
   }
 
   return (
-    <header>
+    <header data-testid="header">
       <Link to="/" data-testid="home" onClick={clearSearch}>
         <Icon classList="bi bi-film" />
       </Link>

@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
 import { IMovies } from "../types";
 
 const initialState: IMovies = {
@@ -40,11 +39,10 @@ reducers: {},
 extraReducers: (builder) => {
   builder
     .addCase(fetchMovies.fulfilled, (state, action) => {
-      const uniqueResults = new Set([...state.movies.results, ...action.payload.results]);
       state.movies = {
         ...state.movies,
         ...action.payload,
-        results: Array.from(uniqueResults),
+        results: [...state.movies.results, ...action.payload.results],
       };
       state.fetchStatus = "success"
     })
@@ -57,5 +55,4 @@ extraReducers: (builder) => {
 },
 });
 
-export const movieList = (state: RootState) => state.movieList;
 export default moviesSlice;

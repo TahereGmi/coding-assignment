@@ -1,22 +1,21 @@
 import React, { FC } from 'react'
-import Movie from './Movie'
-import { IMovies } from '../data/types'
+import Movie from '../Movie'
 import { useSelector, useDispatch } from 'react-redux'
-import type { AppDispatch } from "../data/store"
-import { fetchMovies } from 'data/reducers/moviesSlice'
-import useInfiniteScroll from '../helpers/UseInfinitScroll'
-import { movieList } from '../data/reducers/moviesSlice'
-import { useEffectOnce } from '../helpers/useEffectOnce'
-import words from '../translation/data_words.json'
-import { ENDPOINT_DISCOVER } from '../constants'
-import '../styles/movies.scss'
+import type { AppDispatch, RootState } from "../../data/store"
+import { fetchMovies } from '../../data/reducers/moviesSlice'
+import useInfiniteScroll from '../../helpers/UseInfinitScroll'
+import { useEffectOnce } from '../../helpers/UseEffectOnce'
+import words from '../../translation/data_words.json'
+import { ENDPOINT_DISCOVER } from '../../constants'
+import './movies.scss'
 
 const Movies: FC = () => {
-    const { movies, fetchStatus } = useSelector(movieList) as IMovies
+    const { movies, fetchStatus } = useSelector((state: RootState) => state.movieList)
+
     const dispatch = useDispatch<AppDispatch>()
 
     useEffectOnce(() => {
-        dispatch(fetchMovies({ apiUrl: `${ENDPOINT_DISCOVER}`, page: 1 }));
+        dispatch(fetchMovies({ apiUrl: `${ENDPOINT_DISCOVER}`, page: 1 }))
     })
 
     const loadMoreMovies = (page: number) => {
