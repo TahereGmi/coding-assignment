@@ -18,7 +18,7 @@ const Starred: FC = () => {
     }
 
   return (
-    <div className="starred" data-testid="starred">
+    <div data-testid="starred" className="starred">
       {starredMovies.length > 0 && (<div data-testid="starred-movies" className="starred-movies">
         <h6 className="header">Starred movies</h6>
         <div className="wrapper">

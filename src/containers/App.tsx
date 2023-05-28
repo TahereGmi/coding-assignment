@@ -13,7 +13,7 @@ const App: FC = () => {
     <Layout>
         <Suspense fallback={<div className='loading-spinner'>{words.loading}</div>}>
           <Routes>
-            <Route path="/" element={<Movies/>} />
+            <Route path="/" element={<Movies />} />
             <Route path="/starred" element={<Starred />} />
             <Route path="/watch-later" element={<WatchLater />} />
             <Route path="*" element={<h1 className="not-found">{words.pageNotFound}</h1>} />

@@ -17,7 +17,7 @@ const WatchLater: FC = () => {
     }
 
   return (
-    <div className="starred" data-testid="watch-later-div">
+    <div className="starred" data-testid="watch-later">
       {watchLaterMovies.length > 0 && (<div data-testid="watch-later-movies" className="starred-movies">
         <h6 className="header">Watch Later List</h6>
         <div className="wrapper">

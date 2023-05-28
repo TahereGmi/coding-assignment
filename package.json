@@ -24,8 +24,14 @@
   "jest": {
     "testEnvironment": "jsdom",
     "moduleNameMapper": {
-      "\\.(css|scss)$": "identity-obj-proxy"
-    }
+      "\\.(css|scss)$": "identity-obj-proxy",
+      "^data/(.*)$": "<rootDir>/src/data/$1",
+      "^components/(.*)$": "<rootDir>/src/components/$1",
+      "^translation/(.*)$": "<rootDir>/src/translation/$1",
+      "^styles/(.*)$": "<rootDir>/src/styles/$1",
+      "^helpers/(.*)$": "<rootDir>/src/helpers/$1"
+    },
+    "setupFilesAfterEnv": ["<rootDir>/src/setupTests.js"]
   },
   "eslintConfig": {
     "extends": [
