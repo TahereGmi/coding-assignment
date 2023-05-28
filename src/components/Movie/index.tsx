@@ -114,7 +114,11 @@ const Movie: FC<IMovieProps> = ({ movie }) => {
 
     return (
         <>
-            <div className={`card ${cardOpened ? 'opened' : ''}`} onClick={handleOpenOverlay} >
+            <article 
+                className={`card ${cardOpened ? 'opened' : ''}`} 
+                onClick={handleOpenOverlay} 
+                data-testid="movie-thumbnail"
+            >
                 <div className="card__body text-center">
                     <div className="overlay" />
                     <div className="info_panel">
@@ -181,7 +185,7 @@ const Movie: FC<IMovieProps> = ({ movie }) => {
                 >
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
+            </article>
             {isModalOpen && videoKey && <TrailerModal
                 videoKey={videoKey}
                 onClose={closeTrailer} 
