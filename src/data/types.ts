@@ -19,12 +19,7 @@ interface IVideoTrailer {
     key: string
 }
 
-export interface IMovie {
-    id: number,
-    overview: string,
-    release_date: string,
-    title: string,
-    poster_path: string,
+export interface IMovie extends IStarrMovie {
     videos?: { results:  IVideoTrailer[] }
 }
 

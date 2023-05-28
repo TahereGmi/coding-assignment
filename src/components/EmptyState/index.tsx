@@ -11,7 +11,7 @@ interface IEmptyStateProps {
 
 const EmptyState: FC<IEmptyStateProps> = ({ show, iconName, emptyText }) => {
     return (
-        show ? (<div className="text-center empty-cart">
+        show ? (<div className="text-center empty-cart" data-testid="empty-state">
         <Icon classList={`bi bi-${iconName}`} />
         <p>{emptyText}</p>
         <p>{words.goTo}<Link to='/'>{words.home}</Link></p>

@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import watchLaterSlice, { watchLaterList } from 'data/reducers/watchLaterSlice'
+import watchLaterSlice from 'data/reducers/watchLaterSlice'
 import starredSlice from 'data/reducers/starredSlice'
 import { IMovie, ISingleMovie, IStarredList, IWatchLaterList } from 'data/types'
-import { fetchMovie, singleMovie } from 'data/reducers/singleMovieSlice'
+import { fetchMovie } from 'data/reducers/singleMovieSlice'
 import { ENDPOINT, API_KEY } from '../../constants'
 import type { AppDispatch, RootState } from "data/store"
 import TrailerModal from 'components/TrailerModal'
@@ -17,16 +17,16 @@ interface IMovieProps {
 const Movie: FC<IMovieProps> = ({ movie }) => {
     const dispatch = useDispatch<AppDispatch>()
     const { starredMovies } = useSelector((state: RootState) => state.starred) as IStarredList
-    const { watchLaterMovies } = useSelector(watchLaterList) as IWatchLaterList
-    const { movieItem, fetchStatus } = useSelector(singleMovie) as ISingleMovie
+    const { watchLaterMovies } = useSelector((state: RootState) => state.watchLater) as IWatchLaterList
+    const { movieItem, fetchStatus } = useSelector((state: RootState) => state.singleMovie) as ISingleMovie
     const { starMovie, unstarMovie } = starredSlice.actions
     const { addToWatchLater, removeFromWatchLater } = watchLaterSlice.actions
     const [videoKey, setVideoKey] = useState<string | null>(null)
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
     const [cardOpened, setCardOpened] = useState<boolean>(false)
-    const isInWatchList = watchLaterMovies.map((movie) => movie.id).includes(movie.id)
-    const isInStarList = starredMovies.map((movie) => movie.id).includes(movie.id)
+    const isInWatchList = watchLaterMovies?.map((movie) => movie.id).includes(movie.id)
+    const isInStarList = starredMovies?.map((movie) => movie.id).includes(movie.id)
 
     useEffect(() => {
         if (fetchStatus === 'success') {

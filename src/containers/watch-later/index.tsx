@@ -9,16 +9,17 @@ import EmptyState from '../../components/EmptyState'
 
 const WatchLater: FC = () => {
     const { watchLaterMovies } = useSelector((state: any) => state.watchLater)
-    const { remveAllWatchLater } = watchLaterSlice.actions
+    const { removeAllWatchLater } = watchLaterSlice.actions
     const dispatch = useDispatch()
 
     const hanleClearAllWatchLater = () => {
-      dispatch(remveAllWatchLater())
+      dispatch(removeAllWatchLater())
     }
 
   return (
     <div className="starred" data-testid="watch-later">
-      {watchLaterMovies.length > 0 && (<div data-testid="watch-later-movies" className="starred-movies">
+      {watchLaterMovies.length > 0 && (
+      <div data-testid="watch-later-movies" className="starred-movies">
         <h6 className="header">Watch Later List</h6>
         <div className="wrapper">
         {watchLaterMovies.map((movie: IMovie) => (

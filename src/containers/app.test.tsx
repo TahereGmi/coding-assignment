@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import renderWithProviders from '../tests/utils';
+import { renderWithProviders } from '../tests/utils';
 import App from './App';
 
 test('renders Movies component when on home route', async () => {

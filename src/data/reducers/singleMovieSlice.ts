@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { RootState } from "../store";
 import { ISingleMovie } from "../types"
 
 const initialState: ISingleMovie = {
@@ -37,5 +36,4 @@ const singleMovieSlice = createSlice({
     }
 })
 
-export const singleMovie = (state: RootState) => state.singleMovie
 export default singleMovieSlice
