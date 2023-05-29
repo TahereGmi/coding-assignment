@@ -2,11 +2,11 @@ import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import WatchLater from './index';
 import { watchedLaterMock } from '../../tests/mock_data';
-import watchLaterSlice from '../../data/reducers/watchLaterSlice';
+import watchLaterMovieSlice from '../../data/reducers/watchLaterMovieSlice'
 import { renderWithProviders, store } from '../../tests/utils';
 
 describe('WatchLater component', () => {
-  const { removeAllWatchLater } = watchLaterSlice.actions;
+  const { removeAllWatchLater } = watchLaterMovieSlice.actions;
 
   test('renders WatchLater component with watch later movies', () => {
     renderWithProviders(<WatchLater />);
@@ -28,7 +28,7 @@ describe('WatchLater component', () => {
     fireEvent.click(clearAllButton);
     store.dispatch(removeAllWatchLater());
     const state = store.getState();
-    expect(state.watchLater.watchLaterMovies).toEqual([]);
+    expect(state.watchLaterMovie.watchLaterMovies).toEqual([]);
 
   });
 });

@@ -26,7 +26,6 @@ describe('Starred component', () => {
     fireEvent.click(clearAllButton);
 
     store.dispatch = jest.fn();
-    fireEvent.click(clearAllButton);
     store.dispatch(clearAllStarred());
     const state = store.getState();
     expect(state.starred.starredMovies).toEqual([]);

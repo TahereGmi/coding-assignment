@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit"
 import moviesSlice from './reducers/moviesSlice'
-import watchLaterSlice from './reducers/watchLaterSlice'
+import watchLaterMovieSlice from './reducers/watchLaterMovieSlice'
 import starredSlice from './reducers/starredSlice'
 import singleMovieSlice from "./reducers/singleMovieSlice"
 
@@ -9,7 +9,7 @@ const store = configureStore({
         movieList: moviesSlice.reducer,
         singleMovie: singleMovieSlice.reducer,
         starred: starredSlice.reducer,
-        watchLater: watchLaterSlice.reducer
+        watchLaterMovie: watchLaterMovieSlice.reducer
     }
 })
 

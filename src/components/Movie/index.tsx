@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import watchLaterSlice from 'data/reducers/watchLaterSlice'
-import starredSlice from 'data/reducers/starredSlice'
+import watchLaterMovieSlice from '../../data/reducers/watchLaterMovieSlice'
+import starredSlice from '../../data/reducers/starredSlice'
 import { IMovie, ISingleMovie, IStarredList, IWatchLaterList } from 'data/types'
 import { fetchMovie } from 'data/reducers/singleMovieSlice'
 import { ENDPOINT, API_KEY } from '../../constants'
@@ -17,10 +17,10 @@ interface IMovieProps {
 const Movie: FC<IMovieProps> = ({ movie }) => {
     const dispatch = useDispatch<AppDispatch>()
     const { starredMovies } = useSelector((state: RootState) => state.starred) as IStarredList
-    const { watchLaterMovies } = useSelector((state: RootState) => state.watchLater) as IWatchLaterList
+    const { watchLaterMovies } = useSelector((state: RootState) => state.watchLaterMovie) as IWatchLaterList
     const { movieItem, fetchStatus } = useSelector((state: RootState) => state.singleMovie) as ISingleMovie
     const { starMovie, unstarMovie } = starredSlice.actions
-    const { addToWatchLater, removeFromWatchLater } = watchLaterSlice.actions
+    const { addToWatchLater, removeFromWatchLater } = watchLaterMovieSlice.actions
     const [videoKey, setVideoKey] = useState<string | null>(null)
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [isMobile, setIsMobile] = useState<boolean>(false)
@@ -148,7 +148,7 @@ const Movie: FC<IMovieProps> = ({ movie }) => {
                         {!isInWatchList ? (
                             <button 
                                 type="button" 
-                                data-testid="watch-later" 
+                                data-testid="watch-later"
                                 className="movie-btn btn btn-light btn-watch-later" 
                                 onClick={handleAddToWatchList}
                             >

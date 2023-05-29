@@ -1,6 +1,6 @@
 import React , { FC } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import watchLaterSlice from '../../data/reducers/watchLaterSlice'
+import watchLaterMovieReducer from '../../data/reducers/watchLaterMovieSlice'
 import Movie from '../../components/Movie'
 import { IMovie } from '../../data/types'
 import words from '../../translation/data_words.json'
@@ -8,8 +8,8 @@ import ListFooter from '../../components/ListFooter'
 import EmptyState from '../../components/EmptyState'
 
 const WatchLater: FC = () => {
-    const { watchLaterMovies } = useSelector((state: any) => state.watchLater)
-    const { removeAllWatchLater } = watchLaterSlice.actions
+    const { watchLaterMovies } = useSelector((state: any) => state.watchLaterMovie)
+    const { removeAllWatchLater } = watchLaterMovieReducer.actions
     const dispatch = useDispatch()
 
     const hanleClearAllWatchLater = () => {
