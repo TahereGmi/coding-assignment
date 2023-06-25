@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import type { AppDispatch, RootState } from "../../data/store"
 import { fetchMovies } from '../../data/reducers/moviesSlice'
 import useInfiniteScroll from '../../helpers/UseInfinitScroll'
-import { useEffectOnce } from '../../helpers/UseEffectOnce'
+import { useEffectOnce } from '../../helpers/useEffectOnce'
 import words from '../../translation/data_words.json'
 import { ENDPOINT_DISCOVER } from '../../constants'
 import './movies.scss'
