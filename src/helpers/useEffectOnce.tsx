@@ -1,30 +1,26 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 export const useEffectOnce = (effect: () => void | (() => void)) => {
-    const destroyFunc = useRef<void | (() => void)>();
+    // 1. Refs to hold the state across renders without causing re-renders.
+    const cleanupFunction = useRef<void | (() => void)>();
     const effectCalled = useRef(false);
-    const renderAfterCalled = useRef(false);
-    const [, setVal] = useState<number>(0);
-  
-    if (effectCalled.current) {
-      renderAfterCalled.current = true;
-    }
-  
+
+    // 2. useEffect hook to handle the lifecycle.
     useEffect(() => {
+      // 3. Check if the effect has already been called.
       if (!effectCalled.current) {
-        destroyFunc.current = effect();
+        // 4. Call the effect function and store any cleanup function.
+        cleanupFunction.current = effect();
+        // 5. Mark that the effect has been called.
         effectCalled.current = true;
       }
-  
-      setVal((val) => val + 1);
-  
+
+      // 6. Return a cleanup function.
       return () => {
-        if (!renderAfterCalled.current) {
-          return;
-        }
-        if (destroyFunc.current) {
-          destroyFunc.current();
+        // 7. If a cleanup function is provided, call it during the component unmount.
+        if (cleanupFunction.current) {
+          cleanupFunction.current();
         }
       };
-    }, []);
-  };
+    }, []); // 8. An empty dependency array ensures this runs only once (on mount).
+};
