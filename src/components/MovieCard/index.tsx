@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import watchLaterMovieSlice from 'data/reducers/watchLaterMovieSlice'
 import starredSlice from 'data/reducers/starredSlice'
 import { IMovie, ISingleMovie, IStarredList, IWatchLaterList, ISelectedMovie } from 'data/types'
-import { fetchMovie } from 'data/reducers/singleMovieSlice'
+import { fetchSingleMovie } from 'data/api/singleMovieApi'
 import type { AppDispatch, RootState } from "data/store"
 import TrailerModal from 'components/TrailerModal'
 import words from 'translation/data_words.json'
@@ -12,14 +12,13 @@ import Star from 'components/Star'
 import Favourite from 'components/Favourite'
 import Poster from 'components/Poster'
 import useMediaQuery from 'helpers/useMediaQuery'
-import Icon from 'components/Icon'
 import Button from 'components/Button'
 
 type TMovieProps = {
     movie: IMovie
 }
 
-const Movie: FC<TMovieProps> = ({ movie }) => {
+const MovieCard: FC<TMovieProps> = ({ movie }) => {
     const dispatch = useDispatch<AppDispatch>()
     const findInList = (list: ISelectedMovie[] , movieId: number) => list?.map((movie: { id: number }) => movie.id).includes(movieId);
     const isMobile = useMediaQuery('(max-width: 480px)');
@@ -37,7 +36,7 @@ const Movie: FC<TMovieProps> = ({ movie }) => {
     const isInStarList = useMemo(() => findInList(starredMovies, movie.id), [starredMovies, movie.id]);
 
     const getMovie = useCallback(async (id: number) => {
-        await dispatch(fetchMovie(id));
+        await dispatch(fetchSingleMovie(id));
     }, [dispatch]);
 
     const viewTrailer = useCallback(async () => {
@@ -158,4 +157,4 @@ const Movie: FC<TMovieProps> = ({ movie }) => {
     )
 }
 
-export default Movie
+export default MovieCard

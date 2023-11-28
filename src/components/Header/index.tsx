@@ -5,7 +5,7 @@ import { createSearchParams, useSearchParams, useNavigate } from "react-router-d
 
 import type { AppDispatch, RootState } from "data/store"
 import { IStarredList } from "data/types"
-import { fetchMovies } from 'data/api/movieApi'
+import { fetchMovies } from 'data/api/moviesApi'
 import words from 'translation/data_words.json'
 import Icon from "components/Icon"
 import './header.scss'

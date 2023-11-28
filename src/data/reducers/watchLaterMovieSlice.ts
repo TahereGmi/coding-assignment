@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IWatchLaterList } from "../types";
 
 const initialState: IWatchLaterList = {
-  watchLaterMovies: []
+	watchLaterMovies: []
 };
 
 const watchLaterSlice = createSlice({
@@ -23,9 +23,9 @@ const watchLaterSlice = createSlice({
 });
 
 export const {
-  addToWatchLater,
-  removeFromWatchLater,
-  removeAllWatchLater
+	addToWatchLater,
+	removeFromWatchLater,
+	removeAllWatchLater
 } = watchLaterSlice.actions;
 
 export default watchLaterSlice;
