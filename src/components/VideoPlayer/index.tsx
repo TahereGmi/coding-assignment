@@ -2,11 +2,11 @@ import React, { FC } from 'react'
 import ReactPlayer from 'react-player'
 import { VIDEOURL } from '../../constants'
 
-type TPlayerProps = {
+type TVideoPlayer = {
   videoKey: string
 }
 
-const Player: FC<TPlayerProps> = ({ videoKey }) => {
+const VideoPlayer: FC<TVideoPlayer> = ({ videoKey }) => {
   return (<ReactPlayer 
     className="video-player" 
     url={`${VIDEOURL}${videoKey}`} 
@@ -15,4 +15,4 @@ const Player: FC<TPlayerProps> = ({ videoKey }) => {
     data-testid="youtube-player"
   />)};
 
-export default Player;
+export default VideoPlayer;

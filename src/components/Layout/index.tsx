@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-import Header from '../Header'
+import Header from 'components/Header'
 
 type TLayoutProps = {
     children: ReactNode

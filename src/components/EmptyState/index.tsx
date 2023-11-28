@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
 import Icon from 'components/Icon';
 import { Link } from 'react-router-dom';
-import words from '../../translation/data_words.json'
+import words from 'translation/data_words.json'
 
-interface IEmptyStateProps {
+type TEmptyStateProps = {
     show: boolean,
     iconName: string,
     emptyText: string
 }
 
-const EmptyState: FC<IEmptyStateProps> = ({ show, iconName, emptyText }) => {
+const EmptyState: FC<TEmptyStateProps> = ({ show, iconName, emptyText }) => {
     return (
         show ? (<div className="text-center empty-cart" data-testid="empty-state">
         <Icon classList={`bi bi-${iconName}`} />
