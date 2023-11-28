@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Player from 'components/Player'
+import VideoPlayer from 'components/VideoPlayer'
 import './trailerModal.scss'
 
 type TTrailerModal = {
@@ -19,7 +19,7 @@ const TrailerModal: FC<TTrailerModal> = ({
                 {fetchStatus === 'loading' && <div>Loading...</div>}
                 {fetchStatus === 'success' && <div className='trailer-modal__player'>
                     {videoKey ? (
-                        <Player
+                        <VideoPlayer
                             videoKey={videoKey}
                         />
                     ) : (
