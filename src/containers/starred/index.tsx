@@ -1,6 +1,6 @@
 import React , { FC } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Movie from 'components/Movie'
+import Movie from 'components/MovieCard'
 import starredSlice from 'data/reducers/starredSlice'
 import ListFooter from 'components/ListFooter'
 import { IMovie } from 'data/types'

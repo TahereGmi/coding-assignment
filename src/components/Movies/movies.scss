@@ -28,7 +28,7 @@
         }
     }
       
-    .card {
+    .movie-card {
         width: calc(25% - 40px);
         margin-bottom: 50px;
         margin-right: 50px;
@@ -44,12 +44,13 @@
         }
         @media (max-width: 480px) {
             width: 100%;
+            margin-right: 0;
         }
     }
       
-    .card, 
-    .card *,
-    .card + * {
+    .movie-card , 
+    .movie-card *,
+    .movie-card + * {
         -webkit-transition: all .2s ease-in-out;
         -moz-transition: all .2s ease-in-out;
         -ms-transition: all .2s ease-in-out;
@@ -209,7 +210,7 @@
     }
 }
 
-.card {
+.movie-card {
     position: relative;
     color: #fff;
     text-align: center;
@@ -250,7 +251,7 @@
     }
  
 
-    h6.title {
+    .title {
         margin-top: 10px;
         font-size: 0.9rem;
         

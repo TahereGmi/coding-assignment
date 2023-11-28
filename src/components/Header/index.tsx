@@ -3,11 +3,11 @@ import { Link, NavLink } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { createSearchParams, useSearchParams, useNavigate } from "react-router-dom"
 
-import type { AppDispatch, RootState } from "../../data/store"
-import { IStarredList } from "../../data/types"
-import { fetchMovies } from '../../data/reducers/moviesSlice'
-import words from '../../translation/data_words.json'
-import Icon from "../Icon"
+import type { AppDispatch, RootState } from "data/store"
+import { IStarredList } from "data/types"
+import { fetchMovies } from 'data/api/movieApi'
+import words from 'translation/data_words.json'
+import Icon from "components/Icon"
 import './header.scss'
 
 const Header: FC = () => {

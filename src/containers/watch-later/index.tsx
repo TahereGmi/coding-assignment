@@ -1,7 +1,7 @@
 import React , { FC } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import watchLaterMovieReducer from '../../data/reducers/watchLaterMovieSlice'
-import Movie from '../../components/Movie'
+import Movie from '../../components/MovieCard'
 import { IMovie } from '../../data/types'
 import words from '../../translation/data_words.json'
 import ListFooter from '../../components/ListFooter'

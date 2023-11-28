@@ -1,4 +1,4 @@
-export interface IStarrMovie {
+export interface ISelectedMovie {
     id: number, 
     overview: string, 
     release_date: string,
@@ -7,11 +7,11 @@ export interface IStarrMovie {
 }
 
 export interface IStarredList {
-    starredMovies: IStarrMovie[];
+    starredMovies: ISelectedMovie[];
 }
 
 export interface IWatchLaterList {
-    watchLaterMovies: IStarrMovie[];
+    watchLaterMovies: ISelectedMovie[];
 }
 
 interface IVideoTrailer {
@@ -19,14 +19,16 @@ interface IVideoTrailer {
     key: string
 }
 
-export interface IMovie extends IStarrMovie {
+export interface IMovie extends ISelectedMovie {
     videos?: { results:  IVideoTrailer[] }
 }
 
 export interface ISingleMovie {
     movieItem : IMovie,
-    fetchStatus: 'success' | 'loading' | 'error' | ''
+    fetchStatus: TFetchStatus,
 }
+
+export type TFetchStatus = '' | 'success' | 'loading' | 'error';
 
 export interface IMovies {
     movies: {
@@ -35,5 +37,5 @@ export interface IMovies {
         total_pages: number,
         total_results: number
     },
-    fetchStatus: 'success' | 'loading' | 'error' | ''
+    fetchStatus: TFetchStatus,
 }

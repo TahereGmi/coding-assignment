@@ -2,14 +2,14 @@ import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import Starred from './index';
 import starredSlice from 'data/reducers/starredSlice';
-import { starredListMock } from '../../tests/mock_data';
-import { IStarrMovie } from '../../data/types';
-import { renderWithProviders, store } from '../../tests/utils';
+import { starredListMock } from 'tests/mock_data';
+import { ISelectedMovie } from 'data/types';
+import { renderWithProviders, store } from 'tests/utils';
 
 describe('Starred component', () => {
   const { clearAllStarred } = starredSlice.actions;
   test('renders Starred component with starred movies', () => {
-    const starredMovies: IStarrMovie[] = starredListMock;
+    const starredMovies: ISelectedMovie[] = starredListMock;
     renderWithProviders(<Starred />);
 
     const starredMoviesElement = screen.getByTestId('starred-movies');
