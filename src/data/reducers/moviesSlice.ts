@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { ENDPOINT_DISCOVER, ENDPOINT_SEARCH } from '../../constants'
 import { IMovies } from "../types";
 
 const initialState: IMovies = {
@@ -11,16 +12,23 @@ const initialState: IMovies = {
   fetchStatus: "",
 }
 
-interface IAPIParams {
-  apiUrl: string,
-  page?: number
-}
+type TAPIParams = {
+  query?: string,
+  page?: number,
+  type: 'list' | 'search'
+};
 
 export const fetchMovies = createAsyncThunk(
   "movie-list",
-  async (params: IAPIParams) => {
-    const url = params.page ? `${params.apiUrl}&page=${params.page}` : `${params.apiUrl}`
-    const res = await fetch(url)
+  async (params: TAPIParams) => {
+    const { query = '', page = 1, type } = params;
+    let apiUrl
+    if (type === 'list') {
+      apiUrl = `${ENDPOINT_DISCOVER}&page=${page}`
+    } else {
+      apiUrl = `${ENDPOINT_SEARCH}&query=${query}&page=${page}`
+    }
+    const res = await fetch(apiUrl)
     if (!res.ok) {
       if (res.status === 404) {
         throw new Error("Movies not found");

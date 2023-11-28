@@ -1,11 +1,11 @@
 import React, { FC, useCallback, useEffect } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
+import { createSearchParams, useSearchParams, useNavigate } from "react-router-dom"
+
 import type { AppDispatch, RootState } from "../../data/store"
 import { IStarredList } from "../../data/types"
 import { fetchMovies } from '../../data/reducers/moviesSlice'
-import { createSearchParams, useSearchParams, useNavigate } from "react-router-dom"
-import { ENDPOINT_SEARCH } from '../../constants'
 import words from '../../translation/data_words.json'
 import Icon from "../Icon"
 import './header.scss'
@@ -19,21 +19,15 @@ const Header: FC = () => {
   const searchQuery = searchParams.get('search') as string
 
   const fetchMoviesSearch = useCallback(() => {
-    dispatch(fetchMovies({ apiUrl: `${ENDPOINT_SEARCH}&query=` + searchQuery, page: 1 }));
+    dispatch(fetchMovies({ query: searchQuery, type: 'search'}));
   }, [dispatch, searchQuery]);
-
-  useEffect(() => {
-    if (searchQuery?.length > 0) {
-      fetchMoviesSearch();
-    }
-  }, [fetchMoviesSearch, searchQuery]);
 
   const getSearchResults = (query: string) => {
     if (query !== '') {
-      dispatch(fetchMovies({ apiUrl: `${ENDPOINT_SEARCH}&query=` + query }));
+      dispatch(fetchMovies({ query, type: 'search' }));
       setSearchParams(createSearchParams({ search: query }));
     } else {
-      dispatch(fetchMovies({ apiUrl: `${ENDPOINT_SEARCH}&query=` }));
+      dispatch(fetchMovies({ type: 'search' }));
       setSearchParams();
     }
   }
@@ -46,6 +40,12 @@ const Header: FC = () => {
   const clearSearch = () => {
     getSearchResults('')
   }
+
+  useEffect(() => {
+    if (searchQuery?.length > 0) {
+      fetchMoviesSearch();
+    }
+  }, [fetchMoviesSearch, searchQuery])
 
   return (
     <header data-testid="header">

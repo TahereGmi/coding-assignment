@@ -4,17 +4,16 @@ import watchLaterMovieSlice from '../../data/reducers/watchLaterMovieSlice'
 import starredSlice from '../../data/reducers/starredSlice'
 import { IMovie, ISingleMovie, IStarredList, IWatchLaterList } from 'data/types'
 import { fetchMovie } from 'data/reducers/singleMovieSlice'
-import { ENDPOINT, API_KEY } from '../../constants'
 import type { AppDispatch, RootState } from "data/store"
 import TrailerModal from 'components/TrailerModal'
 import words from 'translation/data_words.json'
 import Icon from 'components/Icon'
 
-interface IMovieProps {
+type TMovieProps = {
     movie: IMovie
 }
 
-const Movie: FC<IMovieProps> = ({ movie }) => {
+const Movie: FC<TMovieProps> = ({ movie }) => {
     const dispatch = useDispatch<AppDispatch>()
     const { starredMovies } = useSelector((state: RootState) => state.starred) as IStarredList
     const { watchLaterMovies } = useSelector((state: RootState) => state.watchLaterMovie) as IWatchLaterList
@@ -28,30 +27,8 @@ const Movie: FC<IMovieProps> = ({ movie }) => {
     const isInWatchList = watchLaterMovies?.map((movie) => movie.id).includes(movie.id)
     const isInStarList = starredMovies?.map((movie) => movie.id).includes(movie.id)
 
-    useEffect(() => {
-        if (fetchStatus === 'success') {
-          const trailer = movieItem.videos?.results.find((vid: any) => vid.type === 'Trailer')
-          setVideoKey((trailer?.key ?? movieItem.videos?.results[0].key) || '')
-        }
-      }, [fetchStatus, movieItem.videos?.results])
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia('(max-width: 480px)');
-        setIsMobile(mediaQuery.matches);
-    
-        const handleResize = (event: MediaQueryListEvent) => {
-          setIsMobile(event.matches);
-        };
-    
-        mediaQuery.addEventListener('change', handleResize);
-        return () => {
-          mediaQuery.removeEventListener('change', handleResize);
-        };
-    }, []);
-
     const getMovie = async (id: number) => {
-        const URL = `${ENDPOINT}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`
-        await dispatch(fetchMovie(URL));
+        await dispatch(fetchMovie(id));
     }
 
     const viewTrailer = async () => {
@@ -112,6 +89,28 @@ const Movie: FC<IMovieProps> = ({ movie }) => {
         document.body.classList.remove('modal-open')
     }
 
+
+    useEffect(() => {
+        if (fetchStatus === 'success') {
+          const trailer = movieItem.videos?.results.find((vid: any) => vid.type === 'Trailer')
+          setVideoKey((trailer?.key ?? movieItem.videos?.results[0].key) || '')
+        }
+      }, [fetchStatus, movieItem.videos?.results])
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(max-width: 480px)');
+        setIsMobile(mediaQuery.matches);
+    
+        const handleResize = (event: MediaQueryListEvent) => {
+          setIsMobile(event.matches);
+        };
+    
+        mediaQuery.addEventListener('change', handleResize);
+        return () => {
+          mediaQuery.removeEventListener('change', handleResize);
+        };
+    }, []);
+
     return (
         <>
             <article 
@@ -128,15 +127,7 @@ const Movie: FC<IMovieProps> = ({ movie }) => {
                         <div className="year">
                             {movie.release_date?.substring(0, 4)}
                         </div>
-                        {!isInStarList ? (
-                            <span 
-                                className="btn-star"
-                                data-testid="starred-link" 
-                                onClick={handleAddStar}
-                            >
-                                <Icon classList='bi bi-star' />
-                            </span>
-                        ) : (
+                        {isInStarList ? (
                             <span 
                                 className="btn-star" 
                                 data-testid="unstar-link" 
@@ -144,8 +135,26 @@ const Movie: FC<IMovieProps> = ({ movie }) => {
                             >
                                 <Icon classList="bi bi-star-fill" data-testid="star-fill" />
                             </span>
+                            
+                        ) : (
+                            <span 
+                                className="btn-star"
+                                data-testid="starred-link" 
+                                onClick={handleAddStar}
+                            >
+                                <Icon classList='bi bi-star' />
+                            </span>
                         )}
-                        {!isInWatchList ? (
+                        {isInWatchList ? (
+                           
+                             <button 
+                             type="button" 
+                             data-testid="remove-watch-later" 
+                             className="movie-btn btn btn-light btn-watch-later blue" 
+                             onClick={handleRemoveFromWatchList}>
+                                 <Icon classList="bi bi-check" />
+                         </button>
+                        ) : (
                             <button 
                                 type="button" 
                                 data-testid="watch-later"
@@ -153,14 +162,6 @@ const Movie: FC<IMovieProps> = ({ movie }) => {
                                 onClick={handleAddToWatchList}
                             >
                                 {words.watch_later}
-                            </button>
-                        ) : (
-                            <button 
-                                type="button" 
-                                data-testid="remove-watch-later" 
-                                className="movie-btn btn btn-light btn-watch-later blue" 
-                                onClick={handleRemoveFromWatchList}>
-                                    <Icon classList="bi bi-check" />
                             </button>
                         )}
                         <button 

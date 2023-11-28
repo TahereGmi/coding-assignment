@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
-import YoutubePlayer from 'components/YoutubePlayer'
+import Player from 'components/Player'
 import './trailerModal.scss'
 
-interface ITrailerModal {
+type TTrailerModal = {
     onClose: () => void,
     fetchStatus: string,
     videoKey: string | null
 }
 
-const TrailerModal: FC<ITrailerModal> = ({ 
+const TrailerModal: FC<TTrailerModal> = ({ 
     onClose, 
     fetchStatus, 
     videoKey 
@@ -19,7 +19,7 @@ const TrailerModal: FC<ITrailerModal> = ({
                 {fetchStatus === 'loading' && <div>Loading...</div>}
                 {fetchStatus === 'success' && <div className='trailer-modal__player'>
                     {videoKey ? (
-                        <YoutubePlayer
+                        <Player
                             videoKey={videoKey}
                         />
                     ) : (

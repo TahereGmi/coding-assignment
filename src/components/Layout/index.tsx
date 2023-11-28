@@ -1,11 +1,11 @@
 import React, { FC, ReactNode } from 'react'
 import Header from '../Header'
 
-interface ILayoutProps {
+type TLayoutProps = {
     children: ReactNode
 }
 
-const Layout: FC<ILayoutProps> = ({ children }) => {
+const Layout: FC<TLayoutProps> = ({ children }) => {
     return (
         <div className="App">
             <Header />

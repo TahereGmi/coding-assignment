@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { ENDPOINT, API_KEY } from '../../constants'
 import { ISingleMovie } from "../types"
 
 const initialState: ISingleMovie = {
@@ -14,7 +15,8 @@ const initialState: ISingleMovie = {
 
 export const fetchMovie = createAsyncThunk(
     "single-movie",
-    async (apiUrl: string) => {
+    async (id: number) => {
+        const apiUrl = `${ENDPOINT}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`
       const res = await fetch(apiUrl);
       return res.json();
     }

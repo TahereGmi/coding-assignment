@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
-interface IIconProps {
+type TIconProps ={
     classList: string
 }
 
-const Icon: FC<IIconProps> = ({ classList }) => {
+const Icon: FC<TIconProps> = ({ classList }) => {
     return (
         <i className={classList}></i>
     );

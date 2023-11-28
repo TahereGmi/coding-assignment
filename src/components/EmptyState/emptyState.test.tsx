@@ -5,7 +5,7 @@ import EmptyState from './index';
 
 describe('EmptyState component', () => {
   test('renders EmptyState component when show is true', () => {
-    renderWithProviders(<EmptyState show={true} iconName="heart" emptyText="No items found" />);
+    renderWithProviders(<EmptyState show iconName="heart" emptyText="No items found" />);
 
     const emptyStateElement = screen.getByTestId('empty-state');
     expect(emptyStateElement).toBeInTheDocument();
