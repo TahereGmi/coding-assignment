@@ -3,7 +3,7 @@ import { screen, fireEvent } from '@testing-library/react';
 import WatchLater from './index';
 import { watchedLaterMock } from '../../tests/mock_data';
 import watchLaterMovieSlice from '../../data/reducers/watchLaterMovieSlice'
-import { renderWithProviders, store } from '../../tests/utils';
+import { renderWithProviders, store } from '../../tests';
 
 describe('WatchLater component', () => {
   const { removeAllWatchLater } = watchLaterMovieSlice.actions;

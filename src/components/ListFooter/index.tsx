@@ -1,4 +1,6 @@
 import React, { FC } from 'react'
+
+import Button from 'components/Button'
 import './listFooter.scss'
 
 type TListFooterProps = {
@@ -9,7 +11,11 @@ type TListFooterProps = {
 const ListFooter: FC<TListFooterProps> = ({ onClick, buttonText }) => {
     return (
         <footer className="list-footer text-center">
-          <button className="btn btn-primary" onClick={onClick}>{buttonText}</button>
+            <Button
+                classList='btn btn-primary'
+                text={buttonText}
+                onClick={onClick}
+            />
         </footer>
     );
 }

@@ -4,7 +4,7 @@ import Starred from './index';
 import starredSlice from 'data/reducers/starredSlice';
 import { starredListMock } from 'tests/mock_data';
 import { ISelectedMovie } from 'data/types';
-import { renderWithProviders, store } from 'tests/utils';
+import { renderWithProviders, store } from 'tests';
 
 describe('Starred component', () => {
   const { clearAllStarred } = starredSlice.actions;

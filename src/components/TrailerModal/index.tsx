@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 import VideoPlayer from 'components/VideoPlayer'
+
+import words from 'translation/data_words.json'
 import './trailerModal.scss'
 
 type TTrailerModal = {
@@ -23,7 +25,7 @@ const TrailerModal: FC<TTrailerModal> = ({
                             videoKey={videoKey}
                         />
                     ) : (
-                        <div className='trailer-modal__text'>No trailer available. Try another movie</div>
+                        <div className='trailer-modal__text'>{words.noTrailer}</div>
                     )}
                 </div>}
                 <button className='trailer-modal__close-btn' onClick={onClose}>&times;</button>

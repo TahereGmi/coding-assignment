@@ -2,7 +2,7 @@ import React from 'react'
 import { screen } from '@testing-library/react'
 import Movies from './index'
 import { moviesMock } from '../../tests/mock_data'
-import { renderWithProviders } from '../../tests/utils'
+import { renderWithProviders } from '../../tests'
 
 // Mock the infinite scroll hook
 jest.mock('../../helpers/UseInfinitScroll', () => jest.fn())

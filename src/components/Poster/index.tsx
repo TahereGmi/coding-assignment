@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import notFoundImage from '../../../src/assets/images/not-found-500X750-optimized.jpeg';
+import notFoundImage from '../../assets/images/not-found-500X750-optimized.jpeg';
 
 type TPosterProps ={
     path?: string

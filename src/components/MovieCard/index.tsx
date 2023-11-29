@@ -6,13 +6,15 @@ import starredSlice from 'data/reducers/starredSlice'
 import { IMovie, ISingleMovie, IStarredList, IWatchLaterList, ISelectedMovie } from 'data/types'
 import { fetchSingleMovie } from 'data/api/singleMovieApi'
 import type { AppDispatch, RootState } from "data/store"
+import Typography from 'components/Typography'
 import TrailerModal from 'components/TrailerModal'
 import words from 'translation/data_words.json'
 import Star from 'components/Star'
 import Favourite from 'components/Favourite'
+import useMediaQuery from '../../utils/useMediaQuery'
 import Poster from 'components/Poster'
-import useMediaQuery from 'helpers/useMediaQuery'
 import Button from 'components/Button'
+import './movieCard.scss';
 
 type TMovieProps = {
     movie: IMovie
@@ -20,8 +22,8 @@ type TMovieProps = {
 
 const MovieCard: FC<TMovieProps> = ({ movie }) => {
     const dispatch = useDispatch<AppDispatch>()
+    const isMobile = useMediaQuery('(max-width: 480px)')
     const findInList = (list: ISelectedMovie[] , movieId: number) => list?.map((movie: { id: number }) => movie.id).includes(movieId);
-    const isMobile = useMediaQuery('(max-width: 480px)');
 
     const { starredMovies } = useSelector((state: RootState) => state.starred) as IStarredList
     const { watchLaterMovies } = useSelector((state: RootState) => state.watchLaterMovie) as IWatchLaterList
@@ -115,12 +117,12 @@ const MovieCard: FC<TMovieProps> = ({ movie }) => {
                 <div className="card__body text-center">
                     <div className="overlay" />
                     <div className="info_panel">
-                        <p className="overview">
+                        <Typography.Body size='1' className="overview">
                             {movie.overview}
-                        </p>
-                        <p className="year">
+                        </Typography.Body>
+                        <Typography.Body size='2' className="year">
                             {movie.release_date?.substring(0, 4)}
-                        </p>
+                        </Typography.Body>
                         <Star 
                             icon={isInStarList ? 'bi-star-fill' : 'bi-star'} 
                             onClick={isInStarList ? handleRemoveStar : handleAddStar} 
@@ -139,8 +141,12 @@ const MovieCard: FC<TMovieProps> = ({ movie }) => {
                     </div>
                     <Poster path={movie.poster_path} />
                 </div>
-                <h6 className="title mobile-card">{movie.title}</h6>
-                <h6 className="title">{movie.title}</h6>
+                <Typography.Heading 
+                    size='h3' 
+                    className={`title ${isMobile ? 'mobile-card' : ''}`}
+                >
+                    {movie.title}
+                </Typography.Heading>
                 <Button
                     classList='movie-btn close'
                     onClose={handleCloseOverlay}

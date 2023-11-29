@@ -8,5 +8,6 @@
     "home": "Home",
     "removeAllStarred": "Remove all starred",
     "emptyList": "Empty list",
-    "noWatchLaterMovie": "You have no movies saved to watch later."
+    "noWatchLaterMovie": "You have no movies saved to watch later.",
+    "noTrailer": "No trailer available. Try another movie"
 }

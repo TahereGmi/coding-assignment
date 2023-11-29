@@ -8,7 +8,7 @@ import moviesSlice from '../data/reducers/moviesSlice';
 import watchLaterMovieSlice from '../data/reducers/watchLaterMovieSlice';
 import starredSlice from '../data/reducers/starredSlice';
 import singleMovieSlice from '../data/reducers/singleMovieSlice';
-import { moviesMock, starredListMock, watchedLaterMock } from '../tests/mock_data';
+import { moviesMock, starredListMock, watchedLaterMock } from './mock_data';
 
 const moviesData: IMovies = {
   movies: moviesMock,
