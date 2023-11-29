@@ -3,7 +3,10 @@
     "jsx": "react",
     "baseUrl": "src",
     "paths": {
-      "assets/*": ["assets/*"]
+      "assets/*": ["assets/*"],
+      "@@types/*": [
+        "./@types/*"
+      ],
     },
     "resolveJsonModule": true,
     /* Visit https://aka.ms/tsconfig to read more about this file */
