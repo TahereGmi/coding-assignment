@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 import { fetchMovies } from '../api/moviesApi';
-import { IMovies } from "../types";
+import { FetchStatus } from 'data/types';
+import { IMovies } from '../types';
 
 const initialState: IMovies = {
   movies: {
@@ -9,7 +10,7 @@ const initialState: IMovies = {
     total_pages: 0,
     total_results: 0,
   },
-  fetchStatus: '',
+  fetchStatus: FetchStatus.LOADING,
 }
 
 const moviesSlice = createSlice({
@@ -26,14 +27,14 @@ const moviesSlice = createSlice({
             ...action.payload,
             results: [...state.movies.results, ...action.payload.results],
           },
-          fetchStatus: 'success',
+          fetchStatus: FetchStatus.SUCCESS,
         };
       })
       .addCase(fetchMovies.pending, (state) => {
-        return { ...state, fetchStatus: 'loading' };
+        return { ...state, fetchStatus: FetchStatus.LOADING };
       })
       .addCase(fetchMovies.rejected, (state) => {
-        return { ...state, fetchStatus: 'error' };
+        return { ...state, fetchStatus: FetchStatus.ERROR };
       });
   },
 });

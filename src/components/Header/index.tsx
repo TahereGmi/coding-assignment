@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createSearchParams, useSearchParams, useNavigate } from "react-router-dom"
 
 import type { AppDispatch, RootState } from "data/store"
-import { IStarredList, IWatchLaterList } from "data/types"
 import { fetchMovies } from 'data/api/moviesApi'
 import words from 'translation/data_words.json'
 import Icon from "components/Icon"
@@ -12,8 +11,10 @@ import './header.scss'
 import Typography from "components/Typography"
 
 const Header: FC = () => {
-  const { starredMovies } = useSelector((state: RootState) => state.starred) as IStarredList;
-  const { watchLaterMovies } = useSelector((state: RootState) => state.watchLaterMovie) as IWatchLaterList;
+  const movieData = useSelector((state: RootState) => ({
+    starredMovies: state.starred.starredMovies,
+    watchLaterMovies: state.watchLaterMovie.watchLaterMovies,
+  }));
 
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
@@ -57,20 +58,20 @@ const Header: FC = () => {
 
       <nav>
         <NavLink to="/starred" data-testid="nav-starred" className="nav-starred">
-          {starredMovies.length > 0 ? (
+          {movieData.starredMovies.length > 0 ? (
             <>
               <Icon classList="bi bi-star-fill bi-star-fill-white" />
-              <sup className="star-number">{starredMovies.length}</sup>
+              <sup className="star-number">{movieData.starredMovies.length}</sup>
             </>
           ) : (
             <Icon classList="bi bi-star" />
           )}
         </NavLink>
         <NavLink to="/watch-later" className="nav-watchLater">
-          {watchLaterMovies.length > 0 ? (
+          {movieData.watchLaterMovies.length > 0 ? (
             <>
               <Typography.Body size='1' className='watch-later'>{words.watch_later}</Typography.Body>
-              <sup className="watch-number">{watchLaterMovies.length}</sup>
+              <sup className="watch-number">{movieData.watchLaterMovies.length}</sup>
             </>
           ) : (
             <Typography.Body size='1'>{words.watch_later}</Typography.Body>

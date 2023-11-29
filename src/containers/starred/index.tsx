@@ -7,6 +7,7 @@ import ListFooter from 'components/ListFooter'
 import { IMovie } from 'data/types'
 import words from 'translation/data_words.json'
 import EmptyState from 'components/EmptyState'
+import Typography from 'components/Typography'
 
 const Starred: FC = () => {
 
@@ -22,13 +23,10 @@ const Starred: FC = () => {
     <div data-testid="starred" className="starred">
       {starredMovies.length > 0 && (
       <div data-testid="starred-movies" className="starred-movies">
-        <h6 className="header">Starred movies</h6>
+        <Typography.Heading size='h3'>{words.starredTitle}</Typography.Heading>
         <div className="wrapper">
         {starredMovies.map((movie: IMovie) => (
-          <Movie 
-            movie={movie}
-            key={movie.id}
-          />
+          <Movie movie={movie} key={movie.id} />
         ))}
         </div>
         <ListFooter 

@@ -2,7 +2,8 @@ import React, { FC, useCallback } from 'react';
 import Movie from 'components/MovieCard';
 import { useSelector, useDispatch } from 'react-redux';
 
-import type { AppDispatch, RootState } from "data/store";
+import type { AppDispatch, RootState } from 'data/store';
+import { FetchStatus } from 'data/types';
 import { fetchMovies } from 'data/api/moviesApi';
 import useInfiniteScroll from '../../utils/useInfinitScroll';
 import { useEffectOnce } from '../../utils/useEffectOnce';
@@ -35,7 +36,7 @@ const Movies: FC = () => {
     return (
         <div data-testid="movies" className='wrapper'>
             {renderMovies()}
-            {fetchStatus === 'loading' && <div className='loading'>{words.loading}</div>}
+            {fetchStatus === FetchStatus.LOADING && <div className='loading'>{words.loading}</div>}
         </div>
     );
 };

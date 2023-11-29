@@ -5,7 +5,7 @@
     "paths": {
       "assets/*": ["assets/*"],
       "@@types/*": [
-        "./@types/*"
+        "src/@types/*"
       ],
     },
     "resolveJsonModule": true,

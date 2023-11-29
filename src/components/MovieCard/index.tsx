@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import watchLaterMovieSlice from 'data/reducers/watchLaterMovieSlice'
 import starredSlice from 'data/reducers/starredSlice'
-import { IMovie, ISingleMovie, IStarredList, IWatchLaterList, ISelectedMovie } from 'data/types'
+import { IMovie, ISelectedMovie, FetchStatus } from 'data/types'
 import { fetchSingleMovie } from 'data/api/singleMovieApi'
 import type { AppDispatch, RootState } from "data/store"
 import Typography from 'components/Typography'
@@ -25,17 +25,21 @@ const MovieCard: FC<TMovieProps> = ({ movie }) => {
     const isMobile = useMediaQuery('(max-width: 480px)')
     const findInList = (list: ISelectedMovie[] , movieId: number) => list?.map((movie: { id: number }) => movie.id).includes(movieId);
 
-    const { starredMovies } = useSelector((state: RootState) => state.starred) as IStarredList
-    const { watchLaterMovies } = useSelector((state: RootState) => state.watchLaterMovie) as IWatchLaterList
-    const { movieItem, fetchStatus } = useSelector((state: RootState) => state.singleMovie) as ISingleMovie
+    const movieData = useSelector((state: RootState) => ({
+        starredMovies: state.starred.starredMovies,
+        watchLaterMovies: state.watchLaterMovie.watchLaterMovies,
+        movieItem: state.singleMovie.movieItem,
+        fetchStatus: state.singleMovie.fetchStatus
+    }));
+
     const { starMovie, unstarMovie } = starredSlice.actions
     const { addToWatchLater, removeFromWatchLater } = watchLaterMovieSlice.actions
     const [videoKey, setVideoKey] = useState<string | null>(null)
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [cardOpened, setCardOpened] = useState<boolean>(false)
 
-    const isInWatchList = useMemo(() => findInList(watchLaterMovies, movie.id), [watchLaterMovies, movie.id]);
-    const isInStarList = useMemo(() => findInList(starredMovies, movie.id), [starredMovies, movie.id]);
+    const isInWatchList = useMemo(() => findInList(movieData.watchLaterMovies, movie.id), [movieData.watchLaterMovies, movie.id]);
+    const isInStarList = useMemo(() => findInList(movieData.starredMovies, movie.id), [movieData.starredMovies, movie.id]);
 
     const getMovie = useCallback(async (id: number) => {
         await dispatch(fetchSingleMovie(id));
@@ -93,19 +97,19 @@ const MovieCard: FC<TMovieProps> = ({ movie }) => {
         }
     }
 
-    const handleCloseOverlay = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation()
+    const handleCloseOverlay = (e?: React.MouseEvent<HTMLButtonElement>) => {
+        if(e) e.stopPropagation()
         setCardOpened(false)
         document.body.classList.remove('modal-open')
     }
 
 
     useEffect(() => {
-        if (fetchStatus === 'success') {
-            const trailer = movieItem.videos?.results.find((vid) => vid.type === 'Trailer');
-            setVideoKey((trailer?.key ?? movieItem.videos?.results[0].key) || '');
+        if (movieData.fetchStatus === FetchStatus.SUCCESS) {
+            const trailer = movieData.movieItem.videos?.results.find((vid) => vid.type === 'Trailer');
+            setVideoKey((trailer?.key ?? movieData.movieItem.videos?.results[0].key) || '');
         }
-    }, [fetchStatus, movieItem.videos?.results]);
+    }, [movieData.fetchStatus, movieData.movieItem.videos?.results]);
 
     return (
         <>
@@ -149,7 +153,7 @@ const MovieCard: FC<TMovieProps> = ({ movie }) => {
                 </Typography.Heading>
                 <Button
                     classList='movie-btn close'
-                    onClose={handleCloseOverlay}
+                    onClick={handleCloseOverlay}
                     icon='bi-x'
                 />
 
@@ -157,7 +161,7 @@ const MovieCard: FC<TMovieProps> = ({ movie }) => {
             {isModalOpen && videoKey && <TrailerModal
                 videoKey={videoKey}
                 onClose={closeTrailer} 
-                fetchStatus={fetchStatus}
+                fetchStatus={movieData.fetchStatus}
             />}
         </>
     )

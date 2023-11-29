@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import VideoPlayer from 'components/VideoPlayer';
 
 import words from 'translation/data_words.json';
+import { FetchStatus } from 'data/types';
 import Button from 'components/Button';
 import './trailerModal.scss';
 
@@ -19,8 +20,8 @@ const TrailerModal: FC<TTrailerModal> = ({
     return (
         <div className='trailer-modal'>
             <div className='trailer-modal__content'>
-                {fetchStatus === 'loading' && <div>Loading...</div>}
-                {fetchStatus === 'success' && <div className='trailer-modal__player'>
+                {fetchStatus === FetchStatus.LOADING && <div>Loading...</div>}
+                {fetchStatus === FetchStatus.SUCCESS && <div className='trailer-modal__player'>
                     {videoKey ? (
                         <VideoPlayer
                             videoKey={videoKey}

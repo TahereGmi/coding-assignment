@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from '@reduxjs/toolkit'
 import { fetchSingleMovie } from '../api/singleMovieApi'
-import { ISingleMovie } from "../types"
+import { FetchStatus } from 'data/types'
+import { ISingleMovie } from '../types'
 
 const initialState: ISingleMovie = {
     movieItem: {
@@ -10,7 +11,7 @@ const initialState: ISingleMovie = {
         release_date: '',
         title: '',
     },
-    fetchStatus: '',
+    fetchStatus: FetchStatus.LOADING,
 }
 
 const singleMovieSlice = createSlice({
@@ -20,11 +21,11 @@ const singleMovieSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchSingleMovie.fulfilled, (state, action) => {
             state.movieItem = action.payload
-            state.fetchStatus = 'success'
+            state.fetchStatus = FetchStatus.SUCCESS
         }).addCase(fetchSingleMovie.pending, (state) => {
-            state.fetchStatus = 'loading'
+            state.fetchStatus = FetchStatus.LOADING
         }).addCase(fetchSingleMovie.rejected, (state) => {
-            state.fetchStatus = 'error'
+            state.fetchStatus = FetchStatus.ERROR
         })
     }
 })

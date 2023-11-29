@@ -7,6 +7,7 @@ import { IMovie } from 'data/types'
 import words from 'translation/data_words.json'
 import ListFooter from 'components/ListFooter'
 import EmptyState from 'components/EmptyState'
+import Typography from 'components/Typography'
 
 const WatchLater: FC = () => {
     const { watchLaterMovies } = useSelector((state: any) => state.watchLaterMovie)
@@ -21,13 +22,10 @@ const WatchLater: FC = () => {
     <div className="starred" data-testid="watch-later">
       {watchLaterMovies.length > 0 && (
       <div data-testid="watch-later-movies" className="starred-movies">
-        <h6 className="header">Watch Later List</h6>
+        <Typography.Heading size='h3'>{words.watchLaterTitle}</Typography.Heading >
         <div className="wrapper">
         {watchLaterMovies.map((movie: IMovie) => (
-          <Movie 
-            movie={movie}
-            key={movie.id}
-          />
+          <Movie movie={movie} key={movie.id} />
         ))}
         </div>
         <ListFooter 

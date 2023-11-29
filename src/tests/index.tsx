@@ -4,20 +4,21 @@ import { MemoryRouter } from 'react-router-dom';
 import { configureStore, EnhancedStore, combineReducers, CombinedState } from '@reduxjs/toolkit';
 import { render, RenderResult, RenderOptions } from '@testing-library/react';
 import { IMovies, ISingleMovie, IStarredList, IWatchLaterList } from '../data/types';
-import moviesSlice from '../data/reducers/moviesSlice';
-import watchLaterMovieSlice from '../data/reducers/watchLaterMovieSlice';
-import starredSlice from '../data/reducers/starredSlice';
-import singleMovieSlice from '../data/reducers/singleMovieSlice';
+import { FetchStatus } from 'data/types';
+import moviesSlice from 'data/reducers/moviesSlice';
+import watchLaterMovieSlice from 'data/reducers/watchLaterMovieSlice';
+import starredSlice from 'data/reducers/starredSlice';
+import singleMovieSlice from 'data/reducers/singleMovieSlice';
 import { moviesMock, starredListMock, watchedLaterMock } from './mock_data';
 
 const moviesData: IMovies = {
   movies: moviesMock,
-  fetchStatus: '',
+  fetchStatus: FetchStatus.LOADING,
 };
 
 const singleMovieMock: ISingleMovie = {
   movieItem: starredListMock[0],
-  fetchStatus: '',
+  fetchStatus: FetchStatus.LOADING,
 };
 
 const rootReducer = combineReducers({

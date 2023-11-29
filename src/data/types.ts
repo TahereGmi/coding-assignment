@@ -6,6 +6,12 @@ export interface ISelectedMovie {
     title:string
 }
 
+export enum FetchStatus {
+    SUCCESS = 'success',
+    LOADING = 'loading',
+    ERROR = 'error',
+}
+
 export interface IStarredList {
     starredMovies: ISelectedMovie[];
 }
@@ -25,11 +31,8 @@ export interface IMovie extends ISelectedMovie {
 
 export interface ISingleMovie {
     movieItem : IMovie,
-    fetchStatus: TFetchStatus,
+    fetchStatus: FetchStatus,
 }
-
-export type TFetchStatus = '' | 'success' | 'loading' | 'error';
-
 export interface IMovies {
     movies: {
         page: number,
@@ -37,5 +40,5 @@ export interface IMovies {
         total_pages: number,
         total_results: number
     },
-    fetchStatus: TFetchStatus,
+    fetchStatus: FetchStatus,
 }

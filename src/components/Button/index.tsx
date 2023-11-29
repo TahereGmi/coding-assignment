@@ -2,19 +2,18 @@ import Icon from 'components/Icon';
 import React, { FC } from 'react';
 
 type TButtonProps = {
-    onClick?: () => void,
-    onClose?: (e: React.MouseEvent<HTMLButtonElement>) => void,
+    onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void,
     icon?: string,
     classList: string,
     text?: string,
 }
 
-const Button: FC<TButtonProps> = ({ classList, onClick, icon, text, onClose }) => {
+const Button: FC<TButtonProps> = ({ classList, onClick, icon, text }) => {
     return (
         <button 
             type="button" 
             className={classList}
-            onClick={onClick || onClose}
+            onClick={onClick}
         >
             {icon && <Icon classList={`bi ${icon}`} />}
             {text}
