@@ -11,6 +11,7 @@ const Poster: FC<TPosterProps> = ({ path }) => {
             className="center-block" 
             src={`${path ? `https://image.tmdb.org/t/p/w500/${path}` : notFoundImage}`} 
             alt="Movie poster" 
+            loading="lazy"
         />
     );
 }
