@@ -1,5 +1,6 @@
 import React , { FC } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+
 import Movie from 'components/MovieCard'
 import starredSlice from 'data/reducers/starredSlice'
 import ListFooter from 'components/ListFooter'
@@ -37,7 +38,7 @@ const Starred: FC = () => {
       </div>)}
       <EmptyState
         show={starredMovies.length === 0}
-        iconName='star'
+        icon='star'
         emptyText={words.noStarredMovie}
       />
     </div>

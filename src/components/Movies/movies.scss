@@ -17,6 +17,8 @@
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
+        width: 100%;
+        justify-content: space-between;
         @media (max-width: 768px) {
             padding: 0 40px;
         }
@@ -31,7 +33,6 @@
     .movie-card {
         width: calc(25% - 40px);
         margin-bottom: 50px;
-        margin-right: 50px;
 
         &:nth-child(4n) {
             margin-right: 0;
