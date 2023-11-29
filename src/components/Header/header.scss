@@ -42,13 +42,27 @@ header {
         display: inline-block;
         margin: 0 0.2rem 0;
 
-        &.nav-fav {
-          font-size: 0.8rem;
+        &.nav-fav,
+        &.nav-watchLater {
           color: #ccc;          
           text-decoration: none;
 
           &:hover {
             color: #fff;
+          }
+        }
+
+        &.nav-watchLater {
+          .watch-number {
+            position: absolute;
+            top: 1rem;
+            left: -5px;
+            color: #fff;
+            background: red;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 12px;
           }
         }
       }
@@ -66,13 +80,14 @@ header {
       + .star-number {
         position: absolute;
         top: 1rem;
-        right: 6.1rem;
-        padding: 0.5rem 0.3rem;
-        font-size: 0.65rem;
-        font-weight: 600;
+        left: 6px;
         color: #fff;
         background: red;
         border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        font-size: 12px;
+        line-height: 14px;
       }     
       
       &.bi-film {
@@ -108,6 +123,20 @@ header {
       i {
         color: #fff;
       }
-    }    
+    } 
+    
+    .watch-later {
+      & + .watch-number {
+        position: absolute;
+        top: 1rem;
+        right: 6.1rem;
+        padding: 0.5rem 0.3rem;
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: #fff;
+        background: red;
+        border-radius: 50%;
+      }
+    }
     
   }

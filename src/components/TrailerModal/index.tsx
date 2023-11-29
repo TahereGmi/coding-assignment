@@ -1,14 +1,15 @@
 import React, { FC } from 'react';
-import VideoPlayer from 'components/VideoPlayer'
+import VideoPlayer from 'components/VideoPlayer';
 
-import words from 'translation/data_words.json'
-import './trailerModal.scss'
+import words from 'translation/data_words.json';
+import Button from 'components/Button';
+import './trailerModal.scss';
 
 type TTrailerModal = {
     onClose: () => void,
     fetchStatus: string,
     videoKey: string | null
-}
+};
 
 const TrailerModal: FC<TTrailerModal> = ({ 
     onClose, 
@@ -28,7 +29,11 @@ const TrailerModal: FC<TTrailerModal> = ({
                         <div className='trailer-modal__text'>{words.noTrailer}</div>
                     )}
                 </div>}
-                <button className='trailer-modal__close-btn' onClick={onClose}>&times;</button>
+                <Button
+                    classList='trailer-modal__close-btn'
+                    icon='bi-x'
+                    onClick={onClose}
+                />
             </div>
         </div>
     );
