@@ -7,7 +7,7 @@ import { FetchStatus } from 'data/types';
 import { fetchMovies } from 'data/api/moviesApi';
 import useInfiniteScroll from '../../utils/useInfinitScroll';
 import { useEffectOnce } from '../../utils/useEffectOnce';
-import words from 'translation/data_words.json';
+import Loading from 'components/Loading';
 import './movies.scss';
 
 const Movies: FC = () => {
@@ -36,7 +36,7 @@ const Movies: FC = () => {
     return (
         <div data-testid="movies" className='wrapper'>
             {renderMovies()}
-            {fetchStatus === FetchStatus.LOADING && <div className='loading'>{words.loading}</div>}
+            {fetchStatus === FetchStatus.LOADING && <Loading />}
         </div>
     );
 };

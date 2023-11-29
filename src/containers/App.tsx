@@ -2,6 +2,7 @@ import React, { FC, Suspense, lazy } from 'react'
 import { Routes, Route } from "react-router-dom"
 import Layout from 'components/Layout';
 import words from 'translation/data_words.json'
+import Loading from 'components/Loading';
 import './app.scss'
 
 const Movies = lazy(() => import('../components/Movies'));
@@ -18,7 +19,7 @@ const routeConfig = [
 const App: FC = () => {
   return (
     <Layout>
-      <Suspense fallback={<div className='loading-spinner'>{words.loading}</div>}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           {routeConfig.map(({ path, component: Component }) => (
             <Route key={path} path={path} element={<Component />} />
